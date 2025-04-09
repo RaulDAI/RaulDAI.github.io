@@ -1,11 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Raul | Technical Artist 3D</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- FUENTE TIPOGRÁFICA -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- TU CSS -->
+    <link rel="stylesheet" href="css/styles.css"/>
+
+    <!-- ICONOS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
-  <h1>Bienvenido a mi sitio web</h1>
-  <p>Este es un espacio en construcción para compartir mis proyectos, ideas y reflexiones sobre arte técnico y desarrollo de videojuegos.</p>
+<div class="lang-buttons">
+    <button id="btn-es">ES</button>
+    <button id="btn-en">EN</button>
+</div>
+
+<div class="container">
+    <div class="search-wrapper">
+        <div class="search-box">
+            <label for="search" class="search-icon">
+                <i data-lucide="search-code" class="icon-search"></i>
+            </label>
+            <input type="text" id="search" placeholder="Buscar en el sitio..." autocomplete="off"/>
+        </div>
+
+    </div>
+    <main>
+        <h1 data-lang="title">Bienvenido a mi sitio web</h1>
+        <p data-lang="description">
+            Este es un espacio en construcción para compartir mis proyectos, ideas y reflexiones sobre arte técnico y
+            desarrollo de videojuegos.
+        </p>
+    </main>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+    lucide.createIcons();
+</script>
 </body>
 </html>

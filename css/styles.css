@@ -1,0 +1,111 @@
+﻿* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: #111;
+    color: #fff;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.lang-buttons {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.lang-buttons button {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: #222;
+    border: 1px solid #444;
+    color: #eee;
+    padding: 0.3rem 0.7rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    border-radius: 6px; /* ← Bordes redondeados */
+}
+
+
+.lang-buttons button.active {
+    background-color: #00c2ff;
+    color: #000;
+    font-weight: bold;
+}
+
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 28px;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.2rem;
+    cursor: pointer;
+}
+
+.icon-search {
+    width: 33px;
+    height: 33px;
+    color: #aaa;
+    pointer-events: none; /* evita que bloquee el click */
+    transform: scaleX(-1);
+}
+
+.search-box input {
+    font-family: 'JetBrains Mono', monospace;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #eee;
+    font-size: 1.5rem;
+    flex: 1;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .search-box input {
+        font-size: 1rem;
+    }
+
+    .lang-buttons {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}
