@@ -1,47 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Raul Nivelazo – Portafolio Técnico</title>
 
     <!-- FUENTE TIPOGRÁFICA -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- TU CSS -->
-    <link rel="stylesheet" href="css/styles.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
 
     <!-- ICONOS -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- FAVICON -->
+    <link rel="icon" href="favicon.ico" />
+
+    <!-- SEO -->
+    <meta name="description" content="Sitio oficial de Raul Nivelazo (Raul Andres Aguilera Rosales), artista 3D y desarrollador técnico en Unity.">
 </head>
 
 <body>
-<div class="lang-buttons">
-    <button id="btn-es">ES</button>
-    <button id="btn-en">EN</button>
-</div>
 
 <div class="container">
+
+    <!-- Buscador + Idioma -->
     <div class="search-wrapper">
+        <!-- Simulación de espacio izquierdo para centrar -->
+        <div class="lang-spacer"></div>
+
+        <!-- Buscador -->
         <div class="search-box">
             <label for="search" class="search-icon">
                 <i data-lucide="search-code" class="icon-search"></i>
             </label>
-            <input type="text" id="search" placeholder="Buscar en el sitio..." autocomplete="off"/>
+            <input type="text" id="search" placeholder="Buscar en el sitio..." autocomplete="off" />
         </div>
 
+        <!-- Botones de idioma -->
+        <div class="lang-buttons">
+            <button id="btn-es">ES</button>
+            <button id="btn-en">EN</button>
+        </div>
     </div>
+
+
     <main>
         <h1 data-lang="title">Bienvenido a mi sitio web</h1>
         <p data-lang="description">
             Este es un espacio en construcción para compartir mis proyectos, ideas y reflexiones sobre arte técnico y
             desarrollo de videojuegos.
         </p>
+
+        <!-- Artículos -->
+        <div class="articles-wrapper">
+            <div class="articles-grid" id="articles-container">
+                <!-- Las tarjetas se inyectan aquí con JS -->
+            </div>
+        </div>
     </main>
+
 </div>
 
+<!-- Scripts -->
 <script src="js/main.js"></script>
 <script>
     lucide.createIcons();
 </script>
+
 </body>
 </html>

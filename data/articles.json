@@ -1,0 +1,32 @@
+﻿[
+  {
+    "title": "Cómo optimizar assets 3D en Unity",
+    "description": "Una guía práctica para reducir draw calls y mejorar rendimiento en tiempo real.",
+    "slug": "optimizar-assets-unity",
+    "image": "assets/img/placeholder.png"
+  },
+  {
+    "title": "ScriptableObjects para eventos globales",
+    "description": "Arquitectura robusta usando SOs para eventos sin acoplamiento directo.",
+    "slug": "eventos-globales-scriptableobjects",
+    "image": "assets/img/placeholder.png"
+  },
+  {
+    "title": "Cómo usar Zenject en proyectos pequeños",
+    "description": "Ventajas de la inyección de dependencias sin sobrecargar el código.",
+    "slug": "zenject-proyectos-pequenos",
+    "image": "assets/img/placeholder.png"
+  },
+  {
+    "title": "Diseñando una consola CLI personalizada en Unity",
+    "description": "Paso a paso de cómo crear un input interactivo usando TMP_InputField.",
+    "slug": "consola-cli-unity",
+    "image": "assets/img/placeholder.png"
+  },
+  {
+    "title": "Sistemas de eventos eficientes con Actions",
+    "description": "Por qué evitar UnityEvent y cuándo usar C# puro para máxima performance.",
+    "slug": "eventos-con-actions",
+    "image": "assets/img/placeholder.png"
+  }
+]
