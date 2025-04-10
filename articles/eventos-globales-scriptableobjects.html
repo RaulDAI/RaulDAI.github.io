@@ -3,15 +3,51 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eventos globales con ScriptableObjects</title>
-    <link rel="stylesheet" href="../css/styles.css" />
+
+    <title>Cargando artículo...</title>
+
+    <!-- Tipografía -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+    <!-- Estilos para artículos (hereda styles.css) -->
+    <link rel="stylesheet" href="../css/article.css" />
+
+    <!-- Iconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
 <div class="container">
-    <h1>ScriptableObjects para eventos globales</h1>
-    <p>Arquitectura robusta usando <code>ScriptableObjects</code> para implementar eventos sin acoplamiento directo entre objetos.</p>
-    <p>Explora patrones basados en <code>Action</code>, suscripciones limpias y organización por canales centralizados.</p>
+
+    <!-- Barra superior -->
+    <div class="article-header">
+        <!-- Botón volver -->
+        <div class="article-header-left">
+            <button class="btn-back" onclick="window.location.href='../index.html'" aria-label="Volver al inicio">
+                <i data-lucide="arrow-left"></i>
+            </button>
+        </div>
+
+        <!-- Botones de idioma -->
+        <div class="lang-buttons">
+            <button id="btn-es" aria-label="Idioma español">ES</button>
+            <button id="btn-en" aria-label="Idioma inglés">EN</button>
+            <button id="btn-pt-br" aria-label="Idioma portugués (Brasil)">PT</button>
+        </div>
+    </div>
+
+    <!-- Contenido dinámico del artículo -->
+    <main id="article-content">
+        <p data-lang="loading_article">Cargando contenido...</p>
+    </main>
+
 </div>
+
+<!-- Scripts -->
+<script src="../js/load-article.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+
 </body>
 </html>

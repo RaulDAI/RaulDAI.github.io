@@ -1,31 +1,71 @@
 ﻿[
   {
-    "title": "Cómo optimizar assets 3D en Unity",
-    "description": "Una guía práctica para reducir draw calls y mejorar rendimiento en tiempo real.",
+    "title": {
+      "es": "Cómo optimizar assets 3D en Unity",
+      "en": "How to optimize 3D assets in Unity",
+      "pt-br": "Como otimizar assets 3D no Unity"
+    },
+    "description": {
+      "es": "Una guía práctica para reducir draw calls y mejorar rendimiento en tiempo real.",
+      "en": "A practical guide to reduce draw calls and improve real-time performance.",
+      "pt-br": "Um guia prático para reduzir draw calls e melhorar o desempenho em tempo real."
+    },
     "slug": "optimizar-assets-unity",
     "image": "assets/img/placeholder.png"
   },
   {
-    "title": "ScriptableObjects para eventos globales",
-    "description": "Arquitectura robusta usando SOs para eventos sin acoplamiento directo.",
+    "title": {
+      "es": "ScriptableObjects para eventos globales",
+      "en": "ScriptableObjects for global events",
+      "pt-br": "ScriptableObjects para eventos globais"
+    },
+    "description": {
+      "es": "Arquitectura robusta usando SOs para eventos sin acoplamiento directo.",
+      "en": "Robust architecture using SOs for decoupled event systems.",
+      "pt-br": "Arquitetura robusta usando SOs para sistemas de eventos desacoplados."
+    },
     "slug": "eventos-globales-scriptableobjects",
     "image": "assets/img/placeholder.png"
   },
   {
-    "title": "Cómo usar Zenject en proyectos pequeños",
-    "description": "Ventajas de la inyección de dependencias sin sobrecargar el código.",
+    "title": {
+      "es": "Cómo usar Zenject en proyectos pequeños",
+      "en": "How to use Zenject in small projects",
+      "pt-br": "Como usar Zenject em projetos pequenos"
+    },
+    "description": {
+      "es": "Ventajas de la inyección de dependencias sin sobrecargar el código.",
+      "en": "Benefits of dependency injection without overengineering.",
+      "pt-br": "Vantagens da injeção de dependências sem complicar o código."
+    },
     "slug": "zenject-proyectos-pequenos",
     "image": "assets/img/placeholder.png"
   },
   {
-    "title": "Diseñando una consola CLI personalizada en Unity",
-    "description": "Paso a paso de cómo crear un input interactivo usando TMP_InputField.",
+    "title": {
+      "es": "Diseñando una consola CLI personalizada en Unity",
+      "en": "Designing a custom CLI console in Unity",
+      "pt-br": "Criando um console CLI personalizado no Unity"
+    },
+    "description": {
+      "es": "Paso a paso de cómo crear un input interactivo usando TMP_InputField.",
+      "en": "Step by step guide to build interactive input using TMP_InputField.",
+      "pt-br": "Passo a passo para criar um input interativo com TMP_InputField."
+    },
     "slug": "consola-cli-unity",
     "image": "assets/img/placeholder.png"
   },
   {
-    "title": "Sistemas de eventos eficientes con Actions",
-    "description": "Por qué evitar UnityEvent y cuándo usar C# puro para máxima performance.",
+    "title": {
+      "es": "Sistemas de eventos eficientes con Actions",
+      "en": "Efficient event systems using Actions",
+      "pt-br": "Sistemas de eventos eficientes com Actions"
+    },
+    "description": {
+      "es": "Por qué evitar UnityEvent y cuándo usar C# puro para máxima performance.",
+      "en": "Why avoid UnityEvent and when to prefer pure C# for performance.",
+      "pt-br": "Por que evitar UnityEvent e quando usar C# puro para máxima performance."
+    },
     "slug": "eventos-con-actions",
     "image": "assets/img/placeholder.png"
   }

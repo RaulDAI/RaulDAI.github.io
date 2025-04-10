@@ -1,82 +1,68 @@
-﻿* {
+﻿/* ----------------------------------------
+  RESETEO GLOBAL
+---------------------------------------- */
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* ----------------------------------------
+  BODY Y CONTENEDOR PRINCIPAL
+---------------------------------------- */
 body {
-    overflow-y: scroll; /* fuerza scroll reservado */
     font-family: 'JetBrains Mono', monospace;
     background-color: #111;
     color: #fff;
     min-height: 100vh;
     padding: 0;
     position: relative;
+    overflow-y: scroll;
+    -webkit-font-smoothing: antialiased;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+body::-webkit-scrollbar-track {
+    background: transparent;
+}
+body::-webkit-scrollbar-thumb {
+    background: transparent;
+    transition: background 0.3s ease;
+}
+body:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .container {
-    max-width: 1400px; /* o incluso 1400px si quieres más columnas */
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 1rem;
     text-align: center;
-    padding: 0 1rem; /* margen lateral en pantallas pequeñas */
 }
 
-
-
-.lang-buttons {
-    grid-column: 3;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding-right: 1rem; /* ← margen interno, no externo */
-    margin-left: 1rem;
-}
-
-
-.lang-spacer {
-    width: 133px; /* Ajusta si cambias tamaño de botones */
-    height: 1px;
-}
-
-@media (max-width: 600px) {
-    .lang-spacer {
-        display: none;
-    }
-}
-
-.lang-buttons button {
-    font-family: 'JetBrains Mono', monospace;
-    background-color: #222;
-    border: 1px solid #444;
-    color: #eee;
-    padding: 0.3rem 0.7rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.8rem;
-    border-radius: 6px; /* ← Bordes redondeados */
-}
-
-
-.lang-buttons button.active {
-    background-color: #00c2ff;
-    color: #000;
-    font-weight: bold;
-}
-
+/* ----------------------------------------
+  BUSCADOR + BOTONES DE IDIOMA
+---------------------------------------- */
 .search-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
     margin: 3rem auto;
+    padding: 0 1rem;
     max-width: 100%;
 }
 
+.lang-spacer {
+    width: 162px;
+    height: 1px;
+}
 
 .search-box {
     flex-grow: 1;
-    max-width: 600px;
+    min-width: 280px;
+    max-width: 650px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -85,7 +71,6 @@ body {
     border-radius: 28px;
     padding: 0.8rem 1rem;
 }
-
 
 .search-icon {
     display: flex;
@@ -99,7 +84,7 @@ body {
     width: 33px;
     height: 33px;
     color: #aaa;
-    pointer-events: none; /* evita que bloquee el click */
+    pointer-events: none;
     transform: scaleX(-1);
 }
 
@@ -113,6 +98,44 @@ body {
     flex: 1;
 }
 
+/* ----------------------------------------
+  BOTONES DE IDIOMA
+---------------------------------------- */
+.lang-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-right: 1rem;
+    margin-left: 1rem;
+}
+
+.lang-buttons button {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: #222;
+    border: 1px solid #444;
+    color: #f2f2f2; /* Mejor contraste */
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.lang-buttons button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.lang-buttons button.active {
+    background-color: #00c2ff;
+    color: #000;
+    font-weight: bold;
+}
+
+/* ----------------------------------------
+  TEXTO PRINCIPAL
+---------------------------------------- */
 h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -123,17 +146,9 @@ p {
     line-height: 1.6;
 }
 
-@media (max-width: 600px) {
-    .search-box input {
-        font-size: 1rem;
-    }
-
-    .lang-buttons {
-        top: 0.5rem;
-        right: 0.5rem;
-    }
-}
-
+/* ----------------------------------------
+  ARTÍCULOS (GRID)
+---------------------------------------- */
 .articles-wrapper {
     display: flex;
     justify-content: center;
@@ -146,27 +161,27 @@ p {
     max-width: 1400px;
     width: 100%;
     justify-items: center;
+    margin-top: 3rem;
 }
 
-
 .article-card {
-    flex: 1 1 280px; /* Crece y encoge, base de 280px */
-    max-width: 320px; /* Ancho máximo para mantener consistencia */
     background-color: #1e1e1e;
-    padding: 1.5rem;
-    border-radius: 12px;
     border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5rem;
     text-align: left;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-width: 320px;
+    width: 100%;
     height: 100%;
 }
 
-
 .article-card:hover {
     transform: scale(1.02);
+    box-shadow: 0 0 12px rgba(0, 194, 255, 0.1);
 }
 
 .article-card img {
@@ -191,51 +206,57 @@ p {
     text-overflow: ellipsis;
 }
 
-
 .article-card a {
     color: #00c2ff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.articles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-    justify-content: center;
-}
-
+/* ----------------------------------------
+  ENLACE COMPLETO EN TARJETAS
+---------------------------------------- */
 .article-card {
-    background-color: #1e1e1e;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #333;
-    text-align: left;
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    max-width: 320px;
-    width: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
-body::-webkit-scrollbar {
-    width: 10px;
+.card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-indent: -9999px;
 }
 
-body::-webkit-scrollbar-track {
-    background: transparent;
+.read-more-link {
+    position: relative;
+    z-index: 2;
+    color: #00c2ff;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 1rem;
 }
 
-body::-webkit-scrollbar-thumb {
-    background: transparent;
-    transition: background 0.3s ease;
+.read-more-link:hover {
+    color: #fff;
 }
 
-body:hover::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.05);
-}
 
+/* ----------------------------------------
+  MEDIA QUERIES
+---------------------------------------- */
+@media (max-width: 320px) {
+    .search-box input {
+        font-size: 1rem;
+    }
+
+    .lang-buttons {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .lang-spacer {
+        display: none;
+    }
+}
 
