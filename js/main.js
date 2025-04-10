@@ -3,22 +3,19 @@ let currentLang = 'en';
 
 document.addEventListener('DOMContentLoaded', () => {
     const supportedLangs = ['es', 'en', 'pt-br'];
-
-    // 1. Detectar idioma desde URL, localStorage o navegador
     const urlParams = new URLSearchParams(window.location.search);
+
     const langFromURL = urlParams.get('lang');
     const langFromStorage = localStorage.getItem('preferredLang');
     const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
     const matchedLang = supportedLangs.find(lang => browserLang.startsWith(lang));
 
     currentLang = langFromURL || langFromStorage || matchedLang || 'en';
-    localStorage.setItem('preferredLang', currentLang); // Persistir
+    localStorage.setItem('preferredLang', currentLang);
 
-    // 2. Aplicar idioma inicial
     loadLanguage(currentLang);
     highlightActiveButton(currentLang);
 
-    // 3. Activar botones de idioma
     supportedLangs.forEach(lang => {
         const btn = document.getElementById(`btn-${lang}`);
         if (btn) {
@@ -28,11 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadLanguage(lang);
                 highlightActiveButton(lang);
                 renderArticles(allArticles);
+                setupSearch(); // recargar búsqueda
             });
         }
     });
 
-    // 4. Cargar artículos
     fetch("data/articles.json")
         .then(res => {
             if (!res.ok) throw new Error("Error al cargar articles.json");
@@ -46,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.error("[Error al cargar artículos]", err));
 });
 
-// Cargar traducciones desde JSON
 function loadLanguage(lang) {
     fetch(`js/lang/${lang}.json`)
         .then(res => {
@@ -65,7 +61,6 @@ function loadLanguage(lang) {
         .catch(err => console.error("[Error de idioma]", err));
 }
 
-// Estilo activo en botón de idioma
 function highlightActiveButton(lang) {
     document.querySelectorAll('.lang-buttons button')
         .forEach(btn => btn.classList.remove('active'));
@@ -74,7 +69,6 @@ function highlightActiveButton(lang) {
     if (activeBtn) activeBtn.classList.add('active');
 }
 
-// Renderizar tarjetas de artículos
 function renderArticles(articles) {
     const container = document.getElementById("articles-container");
     container.innerHTML = "";
@@ -84,7 +78,11 @@ function renderArticles(articles) {
         card.className = "article-card";
         card.style.position = "relative";
 
-        // Enlace de fondo (toda la tarjeta)
+        const titleText = article.title?.[currentLang] || article.title?.['en'] || '';
+        const descText = article.description?.[currentLang] || article.description?.['en'] || '';
+
+        card.setAttribute('data-title', normalizeText(titleText));
+
         const cardLink = document.createElement("a");
         const isExternal = article.slug.startsWith("http");
         const href = isExternal ? article.slug : `articles/${article.slug}.html`;
@@ -98,25 +96,22 @@ function renderArticles(articles) {
 
         card.appendChild(cardLink);
 
-        // Imagen
         if (article.image) {
             const img = document.createElement("img");
             img.src = article.image;
-            img.alt = article.title?.[currentLang] || article.title?.['en'] || '';
+            img.alt = titleText;
+            img.className = "pixel-art"; // ✅ APLICAMOS RENDERING PIXELADO
             card.appendChild(img);
         }
 
-        // Título
         const title = document.createElement("h2");
-        title.textContent = article.title?.[currentLang] || article.title?.['en'] || '';
+        title.textContent = titleText;
         card.appendChild(title);
 
-        // Descripción
         const desc = document.createElement("p");
-        desc.textContent = article.description?.[currentLang] || article.description?.['en'] || '';
+        desc.textContent = descText;
         card.appendChild(desc);
 
-        // Leer más
         const readMore = document.createElement("a");
         readMore.href = href;
         readMore.className = "read-more-link";
@@ -134,27 +129,46 @@ function renderArticles(articles) {
     });
 }
 
-// Normalizar texto para búsquedas
-function normalizeText(text) {
-    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-// Buscar por título
 function setupSearch() {
     const input = document.getElementById("search");
     if (!input) return;
 
-    input.addEventListener("input", () => {
-        const searchTerm = normalizeText(input.value.trim());
-        if (searchTerm === "") {
-            renderArticles(allArticles);
-            return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const reset = urlParams.get("reset");
+    const wasReloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
+
+    if (reset === "1" || wasReloaded) {
+        sessionStorage.removeItem("lastSearchTerm");
+        input.value = "";
+        filterArticles("");
+    } else {
+        const savedSearch = sessionStorage.getItem("lastSearchTerm");
+        if (savedSearch) {
+            input.value = savedSearch;
+            filterArticles(savedSearch);
         }
+    }
 
-        const filtered = allArticles.filter(article =>
-            normalizeText(article.title?.[currentLang] || "").includes(searchTerm)
-        );
+    input.addEventListener("input", () => {
+        const searchTerm = input.value.trim();
+        sessionStorage.setItem("lastSearchTerm", searchTerm);
+        filterArticles(searchTerm);
+    });
 
-        renderArticles(filtered);
+    document.body.classList.remove("loading");
+}
+
+function normalizeText(text) {
+    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function filterArticles(searchText) {
+    const lowerText = normalizeText(searchText);
+    const cards = document.querySelectorAll('.article-card');
+
+    cards.forEach(card => {
+        const title = card.getAttribute('data-title') || '';
+        const matches = title.includes(lowerText);
+        card.classList.toggle('hidden', !matches);
     });
 }

@@ -7,6 +7,16 @@
     padding: 0;
 }
 
+body.loading {
+    visibility: hidden;
+}
+
+.pixel-art {
+    image-rendering: pixelated;
+    max-width: 100%;
+    height: auto;
+}
+
 /* ----------------------------------------
   BODY Y CONTENEDOR PRINCIPAL
 ---------------------------------------- */
@@ -24,19 +34,22 @@ body {
 body::-webkit-scrollbar {
     width: 10px;
 }
+
 body::-webkit-scrollbar-track {
     background: transparent;
 }
+
 body::-webkit-scrollbar-thumb {
     background: transparent;
     transition: background 0.3s ease;
 }
+
 body:hover::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.05);
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1450px;
     margin: 0 auto;
     padding: 0 1rem;
     text-align: center;
@@ -156,13 +169,14 @@ p {
 
 .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+    justify-content: center;
+    gap: 1.8rem;
     max-width: 1400px;
     width: 100%;
-    justify-items: center;
     margin-top: 3rem;
 }
+
 
 .article-card {
     background-color: #1e1e1e;
@@ -198,9 +212,8 @@ p {
 .article-card p {
     font-size: 1rem;
     color: #ccc;
-    margin-bottom: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -210,6 +223,10 @@ p {
     color: #00c2ff;
     text-decoration: none;
     font-weight: bold;
+}
+
+.article-card.hidden {
+    display: none;
 }
 
 /* ----------------------------------------
