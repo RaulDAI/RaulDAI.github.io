@@ -74,7 +74,7 @@ body:hover::-webkit-scrollbar-thumb {
 
 .search-box {
     flex-grow: 1;
-    min-width: 280px;
+    min-width: 232px;
     max-width: 650px;
     margin: 0 auto;
     display: flex;
@@ -83,7 +83,36 @@ body:hover::-webkit-scrollbar-thumb {
     border: 1px solid #333;
     border-radius: 28px;
     padding: 0.8rem 1rem;
+    white-space: nowrap;      /* evita salto de línea */
 }
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #eee;
+    font-size: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.5rem 0;
+
+    /* aquí se controla el scroll horizontal real */
+    white-space: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/*  para Chrome y navegadores WebKit */
+.search-box input::-webkit-scrollbar {
+    display: none;
+}
+
+
+
 
 .search-icon {
     display: flex;
@@ -172,7 +201,7 @@ p {
     grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
     justify-content: center;
     gap: 1.8rem;
-    max-width: 1400px;
+    max-width: 1450px;
     width: 100%;
     margin-top: 3rem;
 }

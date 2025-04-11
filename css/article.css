@@ -4,8 +4,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 1rem 1rem;
+    margin: 4rem auto;
+    padding: 0 1rem;
 }
+
+
 
 .article-header-left {
     display: flex;
