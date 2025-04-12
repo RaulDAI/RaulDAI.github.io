@@ -1,0 +1,72 @@
+{
+  "consola-cli-unity": {
+    "slug": "consola-cli-unity",
+    "titulo": "CLI Console in Unity",
+    "descripcion": "A step-by-step guide to build an interactive CLI console in Unity using TMP_InputField.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "cli",
+      "input"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>CLI Console in Unity</h1>\n<p>This article explains how to implement a terminal-style console inside a Unity project without using Unity’s event system.<br>It uses <code>TMP_InputField</code> with full control over the caret, prompt, and validated input.</p>\n<h2>Features</h2>\n<ul>\n<li>Full control over text flow</li>\n<li>No Unity events</li>\n<li>Compatible with UniTask</li>\n</ul>\n"
+  },
+  "eventos-con-actions": {
+    "slug": "eventos-con-actions",
+    "titulo": "Efficient event systems with Actions",
+    "descripcion": "Why avoid UnityEvent and when to prefer pure C# for performance.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "events",
+      "csharp"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>Efficient event systems with Actions</h1>\n<p>Learn when to use <code>Action</code> instead of <code>UnityEvent</code> and how to design highly efficient event systems.</p>\n<p>We explore decoupled architecture, performance, and best practices for using delegates in Unity.</p>\n"
+  },
+  "eventos-globales-scriptableobjects": {
+    "slug": "eventos-globales-scriptableobjects",
+    "titulo": "ScriptableObjects for Global Events",
+    "descripcion": "Robust architecture using SOs for decoupled event systems.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "events",
+      "scriptableobject"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>ScriptableObjects for Global Events</h1>\n<p>Robust architecture using <code>ScriptableObjects</code> to implement events without tight coupling between objects.</p>\n<p>We explore patterns based on <code>Action</code>, clean subscriptions, and organization through centralized channels.</p>\n"
+  },
+  "optimizar-assets-unity": {
+    "slug": "optimizar-assets-unity",
+    "titulo": "How to Optimize 3D Assets in Unity",
+    "descripcion": "A practical guide to reduce draw calls and improve real-time performance.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "optimization",
+      "3d"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>How to Optimize 3D Assets in Unity</h1>\n<p>This article explores techniques to improve real-time performance when working with 3D models in Unity.</p>\n<p>We’ll cover draw calls, batching, LOD, and how to properly prepare your assets.</p>\n"
+  },
+  "zenject-proyectos-pequenos": {
+    "slug": "zenject-proyectos-pequenos",
+    "titulo": "How to Use Zenject in Small Projects",
+    "descripcion": "Benefits of dependency injection without overengineering.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "zenject",
+      "architecture"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>How to Use Zenject in Small Projects</h1>\n<p>This article explains how to leverage Zenject even in small-scale architectures, avoiding unnecessary overengineering.</p>\n"
+  }
+}

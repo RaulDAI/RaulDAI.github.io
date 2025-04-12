@@ -1,0 +1,72 @@
+{
+  "consola-cli-unity": {
+    "slug": "consola-cli-unity",
+    "titulo": "Console CLI no Unity",
+    "descripcion": "Um guia passo a passo para criar um console CLI interativo no Unity usando TMP_InputField.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "cli",
+      "input"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>Console CLI no Unity</h1>\n<p>Este artigo explica como implementar um console estilo terminal dentro de um projeto Unity sem utilizar o sistema de eventos do Unity.<br>Utiliza-se <code>TMP_InputField</code> com controle total do cursor, do prompt e da entrada validada.</p>\n<h2>Características</h2>\n<ul>\n<li>Controle absoluto do fluxo de texto</li>\n<li>Sem eventos do Unity</li>\n<li>Compatível com UniTask</li>\n</ul>\n"
+  },
+  "eventos-con-actions": {
+    "slug": "eventos-con-actions",
+    "titulo": "Sistemas de eventos eficientes com Actions",
+    "descripcion": "Por que evitar UnityEvent e quando usar C# puro para máxima performance.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "eventos",
+      "csharp"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>Sistemas de eventos eficientes com Actions</h1>\n<p>Descubra quando utilizar <code>Action</code> em vez de <code>UnityEvent</code> e como projetar eventos altamente eficientes.</p>\n<p>Exploramos arquitetura desacoplada, desempenho e boas práticas no uso de delegates em Unity.</p>\n"
+  },
+  "eventos-globales-scriptableobjects": {
+    "slug": "eventos-globales-scriptableobjects",
+    "titulo": "ScriptableObjects para eventos globais",
+    "descripcion": "Arquitetura robusta usando SOs para sistemas de eventos desacoplados.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "eventos",
+      "scriptableobject"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>ScriptableObjects para eventos globais</h1>\n<p>Arquitetura robusta usando <code>ScriptableObjects</code> para implementar eventos sem acoplamento direto entre objetos.</p>\n<p>Exploramos padrões baseados em <code>Action</code>, assinaturas limpas e organização por canais centralizados.</p>\n"
+  },
+  "optimizar-assets-unity": {
+    "slug": "optimizar-assets-unity",
+    "titulo": "Como otimizar assets 3D no Unity",
+    "descripcion": "Um guia prático para reduzir draw calls e melhorar o desempenho em tempo real.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "otimizacao",
+      "3d"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>Como otimizar assets 3D no Unity</h1>\n<p>Este artigo explora técnicas para melhorar o desempenho em tempo real ao trabalhar com modelos 3D no Unity.</p>\n<p>Vamos abordar draw calls, batching, LOD e como preparar corretamente seus assets.</p>\n"
+  },
+  "zenject-proyectos-pequenos": {
+    "slug": "zenject-proyectos-pequenos",
+    "titulo": "Como usar Zenject em projetos pequenos",
+    "descripcion": "Vantagens da injeção de dependências sem complicar o código.",
+    "fecha": "2025-04-10T00:00:00.000Z",
+    "tags": [
+      "unity",
+      "zenject",
+      "arquitetura"
+    ],
+    "autor": "RaulDAI",
+    "imagen": "placeholder.png",
+    "html": "<h1>Como usar Zenject em projetos pequenos</h1>\n<p>Este artigo explica como aproveitar o Zenject mesmo em arquiteturas modestas, sem cair em sobreengenharia desnecessária.</p>\n"
+  }
+}
