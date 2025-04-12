@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title data-lang="page_title">Raul Nivelazo – Portafolio Técnico</title>
 
     <!-- FUENTE TIPOGRÁFICA -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/styles.css" />
 
     <!-- ICONOS -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- FAVICON -->
-    <link rel="icon" href="favicon.ico"/>
+    <link rel="icon" href="favicon.ico" />
 
     <!-- SEO -->
     <meta name="description"
@@ -24,7 +24,6 @@
 </head>
 
 <body class="loading">
-
 
 <div class="container">
 
@@ -50,7 +49,6 @@
 
         <!-- Botones de idioma -->
         <div class="lang-buttons">
-            
             <button id="btn-es" aria-label="Idioma español">ES</button>
             <button id="btn-en" aria-label="Idioma inglés">EN</button>
             <button id="btn-pt-br" aria-label="Idioma portugués (Brasil)">PT</button>
@@ -63,6 +61,7 @@
             Este es un espacio en construcción para compartir mis proyectos, ideas y reflexiones sobre arte técnico y
             desarrollo de videojuegos.
         </p>
+
         <!-- Artículos -->
         <div class="articles-wrapper">
             <div class="articles-grid" id="articles-container">
@@ -73,10 +72,11 @@
 
 </div>
 
-<!-- Scripts -->
-<script src="js/main.js"></script>
+<!-- SCRIPTS -->
+<script src="js/config.js"></script>         <!-- Rutas centralizadas -->
+<script src="js/main.js"></script>           <!-- Lógica principal -->
 <script>
-    lucide.createIcons();
+    lucide.createIcons();                    // Activar íconos después de cargar todo
 </script>
 
 </body>

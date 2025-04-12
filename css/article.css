@@ -58,7 +58,7 @@
 }
 
 /* Responsive */
-@media (max-width: 320px) {
+@media (max-width: 300px) {
     .article-header {
         flex-direction: column;
         align-items: flex-start;

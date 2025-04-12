@@ -291,7 +291,7 @@ p {
 /* ----------------------------------------
   MEDIA QUERIES
 ---------------------------------------- */
-@media (max-width: 320px) {
+@media (max-width: 300px) {
     .search-box input {
         font-size: 1rem;
     }

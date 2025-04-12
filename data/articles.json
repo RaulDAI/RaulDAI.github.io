@@ -11,7 +11,7 @@
       "pt-br": "Um guia prático para reduzir draw calls e melhorar o desempenho em tempo real."
     },
     "slug": "optimizar-assets-unity",
-    "image": "assets/img/placeholder.png"
+    "image": "placeholder.png"
   },
   {
     "title": {
@@ -25,7 +25,7 @@
       "pt-br": "Arquitetura robusta usando SOs para sistemas de eventos desacoplados."
     },
     "slug": "eventos-globales-scriptableobjects",
-    "image": "assets/img/placeholder.png"
+    "image": "placeholder.png"
   },
   {
     "title": {
@@ -39,7 +39,7 @@
       "pt-br": "Vantagens da injeção de dependências sem complicar o código."
     },
     "slug": "zenject-proyectos-pequenos",
-    "image": "assets/img/placeholder.png"
+    "image": "placeholder.png"
   },
   {
     "title": {
@@ -53,7 +53,7 @@
       "pt-br": "Passo a passo para criar um input interativo com TMP_InputField."
     },
     "slug": "consola-cli-unity",
-    "image": "assets/img/placeholder.png"
+    "image": "placeholder.png"
   },
   {
     "title": {
@@ -67,6 +67,6 @@
       "pt-br": "Por que evitar UnityEvent e quando usar C# puro para máxima performance."
     },
     "slug": "eventos-con-actions",
-    "image": "assets/img/placeholder.png"
+    "image": "placeholder.png"
   }
 ]

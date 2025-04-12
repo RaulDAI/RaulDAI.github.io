@@ -25,12 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadLanguage(lang);
                 highlightActiveButton(lang);
                 renderArticles(allArticles);
-                setupSearch(); // recargar búsqueda
+                setupSearch();
             });
+        } else {
+            console.warn(`Botón de idioma faltante: btn-${lang}`);
         }
     });
 
-    fetch("data/articles.json")
+    fetch(PATHS.DATA + "articles.json")
         .then(res => {
             if (!res.ok) throw new Error("Error al cargar articles.json");
             return res.json();
@@ -40,11 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
             renderArticles(allArticles);
             setupSearch();
         })
-        .catch(err => console.error("[Error al cargar artículos]", err));
+        .catch(err => {
+            console.error("[Error al cargar artículos]", err);
+            const container = document.getElementById("articles-container");
+            if (container) {
+                container.innerHTML = `<p class="error-msg">Error al cargar los artículos.</p>`;
+            }
+        });
 });
 
 function loadLanguage(lang) {
-    fetch(`js/lang/${lang}.json`)
+    fetch(PATHS.LANG + lang + ".json")
         .then(res => {
             if (!res.ok) throw new Error(`Archivo de idioma ${lang}.json no encontrado`);
             return res.json();
@@ -52,13 +60,17 @@ function loadLanguage(lang) {
         .then(data => {
             document.querySelectorAll('[data-lang]').forEach(el => {
                 const key = el.getAttribute('data-lang');
-                if (data[key]) el.textContent = data[key];
+                el.textContent = data[key] || `[[${key}]]`;
             });
 
             const searchInput = document.getElementById('search');
-            if (searchInput) searchInput.placeholder = data.search_placeholder;
+            if (searchInput) searchInput.placeholder = data.search_placeholder || 'Search...';
         })
-        .catch(err => console.error("[Error de idioma]", err));
+        .catch(err => {
+            console.error("[Error de idioma]", err);
+            const searchInput = document.getElementById('search');
+            if (searchInput) searchInput.placeholder = 'Search...';
+        });
 }
 
 function highlightActiveButton(lang) {
@@ -71,6 +83,8 @@ function highlightActiveButton(lang) {
 
 function renderArticles(articles) {
     const container = document.getElementById("articles-container");
+    if (!container) return;
+
     container.innerHTML = "";
 
     articles.forEach(article => {
@@ -81,11 +95,15 @@ function renderArticles(articles) {
         const titleText = article.title?.[currentLang] || article.title?.['en'] || '';
         const descText = article.description?.[currentLang] || article.description?.['en'] || '';
 
-        card.setAttribute('data-title', normalizeText(titleText));
+        const safeTitle = sanitizeText(titleText);
+        const safeDesc = sanitizeText(descText);
+
+        card.setAttribute('data-title', normalizeText(safeTitle));
+        card.setAttribute('data-desc', normalizeText(safeDesc));
 
         const cardLink = document.createElement("a");
         const isExternal = article.slug.startsWith("http");
-        const href = isExternal ? article.slug : `articles/${article.slug}.html`;
+        const href = isExternal ? article.slug : PATHS.ARTICLES + article.slug + ".html";
         cardLink.href = href;
         cardLink.className = "card-link";
 
@@ -98,26 +116,30 @@ function renderArticles(articles) {
 
         if (article.image) {
             const img = document.createElement("img");
-            img.src = article.image;
-            img.alt = titleText;
-            img.className = "pixel-art"; // ✅ APLICAMOS RENDERING PIXELADO
+            img.src = PATHS.IMG + article.image;
+            img.alt = safeTitle;
+            img.className = "pixel-art";
             card.appendChild(img);
         }
 
         const title = document.createElement("h2");
-        title.textContent = titleText;
+        title.textContent = safeTitle;
         card.appendChild(title);
 
         const desc = document.createElement("p");
-        desc.textContent = descText;
+        desc.textContent = safeDesc;
         card.appendChild(desc);
 
         const readMore = document.createElement("a");
         readMore.href = href;
         readMore.className = "read-more-link";
-        readMore.textContent = currentLang === 'es' ? "Leer más"
-            : currentLang === 'pt-br' ? "Ler mais"
-                : "Read more";
+
+        const readMoreTexts = {
+            "es": "Leer más",
+            "pt-br": "Ler mais",
+            "en": "Read more"
+        };
+        readMore.textContent = readMoreTexts[currentLang] || "Read more";
 
         if (isExternal) {
             readMore.target = "_blank";
@@ -159,7 +181,11 @@ function setupSearch() {
 }
 
 function normalizeText(text) {
-    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return String(text).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function sanitizeText(text) {
+    return String(text).replace(/[<>]/g, "");
 }
 
 function filterArticles(searchText) {
@@ -168,7 +194,8 @@ function filterArticles(searchText) {
 
     cards.forEach(card => {
         const title = card.getAttribute('data-title') || '';
-        const matches = title.includes(lowerText);
+        const desc = card.getAttribute('data-desc') || '';
+        const matches = title.includes(lowerText) || desc.includes(lowerText);
         card.classList.toggle('hidden', !matches);
     });
 }
