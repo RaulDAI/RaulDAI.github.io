@@ -20,7 +20,9 @@ Thumbs.db
 *.swp
 
 # === CARPETAS DE OUTPUT ===
-/output/
+!/output/                     # <– ⚠️ incluir carpeta output en el repositorio
+/output/*.tmp
+/output/*.bak
 /dist/
 /build/
 

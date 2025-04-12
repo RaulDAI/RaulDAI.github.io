@@ -3,7 +3,9 @@ let currentArticle = null;
 let currentSlug = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
-    currentSlug = window.location.pathname.split("/").pop().replace(".html", "");
+    const urlParams = new URLSearchParams(window.location.search);
+    currentSlug = urlParams.get("slug");
+    currentLang = urlParams.get("lang") || currentLang;
 
     await loadArticle(currentLang);
     setupLanguageButtons();
@@ -12,8 +14,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function loadArticle(lang) {
     try {
-        const res = await fetch(PATHS.DATA + "articles-content.json");
-        if (!res.ok) throw new Error("No se pudo cargar el contenido del artículo");
+        const res = await fetch(`${PATHS.DATA}articles-${lang}.json`);
+        if (!res.ok) throw new Error(`No se pudo cargar articles-${lang}.json`);
 
         const data = await res.json();
         currentArticle = data[currentSlug];
@@ -26,21 +28,15 @@ async function loadArticle(lang) {
             return;
         }
 
-        const title = currentArticle.title?.[lang] || currentArticle.title?.["en"] || "Sin título";
-        const content = currentArticle.content?.[lang] || currentArticle.content?.["en"] || "<p>Contenido no disponible.</p>";
-
-        document.title = sanitizeText(title);
-
-        // Inyección segura
+        const html = currentArticle.html || "<p>Contenido no disponible.</p>";
+        document.title = sanitizeText(currentArticle.titulo || "Sin título");
         container.innerHTML = "";
-        const h1 = document.createElement("h1");
-        h1.textContent = title;
-        container.appendChild(h1);
+
+        // ⛔️ Ya no renderizamos el título aquí
 
         const contentWrapper = document.createElement("div");
-        contentWrapper.innerHTML = sanitizeHTML(content); // 👈 Aquí permites HTML limitado
+        contentWrapper.innerHTML = sanitizeHTML(html);
         container.appendChild(contentWrapper);
-
     } catch (err) {
         console.error("[Error al cargar artículo dinámico]", err);
         const container = document.getElementById("article-content");
@@ -52,24 +48,22 @@ function sanitizeText(text) {
     return String(text).replace(/[<>]/g, "");
 }
 
-// Esta función limita etiquetas permitidas (puedes ampliarla si confías en el contenido)
 function sanitizeHTML(html) {
-    const allowedTags = ['b', 'i', 'em', 'strong', 'p', 'ul', 'ol', 'li', 'br', 'a', 'code', 'pre'];
-    const temp = document.createElement('div');
+    const allowedTags = ["b", "i", "em", "strong", "p", "ul", "ol", "li", "br", "a", "code", "pre", "h1", "h2", "h3"];
+    const temp = document.createElement("div");
     temp.innerHTML = html;
 
-    const elements = temp.querySelectorAll('*');
+    const elements = temp.querySelectorAll("*");
     elements.forEach(el => {
         if (!allowedTags.includes(el.tagName.toLowerCase())) {
-            el.replaceWith(...el.childNodes); // Elimina etiquetas no permitidas
+            el.replaceWith(...el.childNodes);
         } else {
-            // Limpieza de atributos peligrosos
             [...el.attributes].forEach(attr => {
-                if (!['href', 'target', 'rel'].includes(attr.name)) {
+                if (!["href", "target", "rel"].includes(attr.name)) {
                     el.removeAttribute(attr.name);
                 }
-                if (attr.name === 'href' && el.href.startsWith('javascript:')) {
-                    el.removeAttribute('href');
+                if (attr.name === "href" && el.href.startsWith("javascript:")) {
+                    el.removeAttribute("href");
                 }
             });
         }
@@ -87,11 +81,12 @@ function setupLanguageButtons() {
             btn.addEventListener("click", async () => {
                 currentLang = lang;
                 localStorage.setItem("preferredLang", lang);
+                const newURL = new URL(window.location.href);
+                newURL.searchParams.set("lang", lang);
+                history.replaceState(null, "", newURL.toString());
                 await loadArticle(lang);
                 highlightActiveButton(lang);
             });
-        } else {
-            console.warn(`Botón faltante: btn-${lang}`);
         }
     });
 

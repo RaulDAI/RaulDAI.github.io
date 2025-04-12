@@ -2,54 +2,37 @@
 
 const fs = require("fs");
 const path = require("path");
+const matter = require("gray-matter");
 const marked = require("marked");
 const DOMPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
 
-const langs = ["es", "en"]; // idiomas que vamos a procesar
+const langs = ["es", "en", "pt-br"];
 
 const window = new JSDOM('').window;
 const purify = DOMPurify(window);
 
-// Función para extraer metadatos del bloque <!-- ... -->
-function extractMetadata(content) {
-    const metaMatch = content.match(/<!--([\s\S]*?)-->/);
-    const metadata = {};
-    if (metaMatch) {
-        const lines = metaMatch[1].trim().split('\n');
-        for (const line of lines) {
-            const [key, ...rest] = line.split(":");
-            metadata[key.trim()] = rest.join(":").trim().replace(/^\[|\]$/g, "").split(",").map(x => x.trim());
-            if (metadata[key.trim()].length === 1) metadata[key.trim()] = metadata[key.trim()][0]; // simplifica
-        }
-    }
-    return metadata;
-}
-
-// Procesar todos los idiomas
-const fullData = {}; // { es: { slug: { titulo, html, ... } }, en: { ... } }
+const fullData = {};
 
 langs.forEach(lang => {
     const dir = path.join(__dirname, "../content", lang);
     const files = fs.readdirSync(dir).filter(f => f.endsWith(".md"));
-
     fullData[lang] = {};
 
     files.forEach(file => {
         const raw = fs.readFileSync(path.join(dir, file), "utf8");
-        const metadata = extractMetadata(raw);
-        const html = purify.sanitize(marked.parse(raw));
+        const { data: meta, content } = matter(raw);
+        const html = purify.sanitize(marked.parse(content));
 
-        if (metadata.slug) {
-            fullData[lang][metadata.slug] = {
-                ...metadata,
+        if (meta.slug) {
+            fullData[lang][meta.slug] = {
+                ...meta,
                 html
             };
         }
     });
 });
 
-// Salvar JSON final
 const outPath = path.join(__dirname, "../output/data");
 fs.mkdirSync(outPath, { recursive: true });
 
@@ -57,4 +40,4 @@ Object.entries(fullData).forEach(([lang, data]) => {
     fs.writeFileSync(path.join(outPath, `articles-${lang}.json`), JSON.stringify(data, null, 2), "utf8");
 });
 
-console.log("✅ Artículos procesados y JSONs generados");
+console.log("✅ JSONs generados con gray-matter + marked + DOMPurify");

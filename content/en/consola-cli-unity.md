@@ -1,17 +1,20 @@
 ﻿---
 slug: consola-cli-unity
-titulo: Consola CLI en Unity
+titulo: CLI Console in Unity
+descripcion: A step-by-step guide to build an interactive CLI console in Unity using TMP_InputField.
 fecha: 2025-04-10
 tags: [unity, cli, input]
-autor: TuNombre
+autor: RaulDAI
+imagen: placeholder.png
 ---
 
-# Consola CLI en Unity
+# CLI Console in Unity
 
-Este artículo explica cómo implementar una consola tipo terminal dentro de un proyecto Unity sin usar el sistema de eventos de Unity. Se utiliza `TMP_InputField` con control total del caret, el prompt, y entrada validada.
+This article explains how to implement a terminal-style console inside a Unity project without using Unity’s event system.  
+It uses `TMP_InputField` with full control over the caret, prompt, and validated input.
 
-## Características
+## Features
 
-- Control absoluto del flujo de texto
-- Sin eventos de Unity
-- Compatible con UniTask
+- Full control over text flow
+- No Unity events
+- Compatible with UniTask

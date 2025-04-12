@@ -1,14 +1,13 @@
 ﻿@import url("styles.css"); /* Reutiliza todo lo común */
 
+/* 🧭 Encabezado del artículo */
 .article-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 4rem auto;
+    margin: 4rem auto 2rem;
     padding: 0 1rem;
 }
-
-
 
 .article-header-left {
     display: flex;
@@ -16,7 +15,6 @@
     gap: 1rem;
 }
 
-/* Botón volver estilo coherente */
 .btn-back {
     background-color: #222;
     border: 1px solid #444;
@@ -33,7 +31,6 @@
     background-color: #333;
 }
 
-/* Idiomas igual al index */
 .lang-buttons button {
     background-color: #222;
     border: 1px solid #444;
@@ -57,17 +54,83 @@
     font-weight: bold;
 }
 
+/* 🖋️ Estilo del contenido del artículo */
+#article-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+#article-content h1,
+#article-content h2,
+#article-content h3,
+#article-content p,
+#article-content ul,
+#article-content ol,
+#article-content li,
+#article-content pre,
+#article-content code {
+    text-align: left;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+}
+
+/* Titulares */
+#article-content h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+#article-content h2 {
+    font-size: 1.6rem;
+    margin-top: 1.8rem;
+}
+#article-content h3 {
+    font-size: 1.3rem;
+    margin-top: 1.4rem;
+}
+
+/* Listas */
+#article-content ul,
+#article-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#article-content li {
+    margin-bottom: 0.5rem;
+    list-style-type: disc;
+}
+
+/* Código */
+#article-content code {
+    background-color: #1d1d1d;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: #00eaff;
+}
+
+/* Bloques de código */
+#article-content pre {
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 6px;
+}
+
 /* Responsive */
 @media (max-width: 300px) {
+    #article-content {
+        padding: 1rem;
+    }
+
     .article-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
-    }
-
-    .lang-buttons {
-        justify-content: flex-start;
-        padding: 0;
-        margin: 0;
     }
 }

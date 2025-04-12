@@ -24,21 +24,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('preferredLang', lang);
                 loadLanguage(lang);
                 highlightActiveButton(lang);
-                renderArticles(allArticles);
-                setupSearch();
+                fetchAndRenderArticles();
             });
-        } else {
-            console.warn(`Botón de idioma faltante: btn-${lang}`);
         }
     });
 
-    fetch(PATHS.DATA + "articles.json")
+    fetchAndRenderArticles();
+});
+
+function fetchAndRenderArticles() {
+    fetch(`${PATHS.DATA}articles-${currentLang}.json`)
         .then(res => {
-            if (!res.ok) throw new Error("Error al cargar articles.json");
+            if (!res.ok) throw new Error(`Error al cargar articles-${currentLang}.json`);
             return res.json();
         })
         .then(data => {
-            allArticles = data;
+            allArticles = Object.entries(data).map(([slug, meta]) => ({
+                slug,
+                titulo: { [currentLang]: meta.titulo },
+                descripcion: { [currentLang]: meta.descripcion },
+                imagen: meta.imagen,
+                fecha: meta.fecha,
+                tags: meta.tags,
+                autor: meta.autor,
+                html: meta.html
+            }));
             renderArticles(allArticles);
             setupSearch();
         })
@@ -49,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.innerHTML = `<p class="error-msg">Error al cargar los artículos.</p>`;
             }
         });
-});
+}
 
 function loadLanguage(lang) {
     fetch(PATHS.LANG + lang + ".json")
@@ -92,18 +102,18 @@ function renderArticles(articles) {
         card.className = "article-card";
         card.style.position = "relative";
 
-        const titleText = article.title?.[currentLang] || article.title?.['en'] || '';
-        const descText = article.description?.[currentLang] || article.description?.['en'] || '';
-
-        const safeTitle = sanitizeText(titleText);
-        const safeDesc = sanitizeText(descText);
+        const safeTitle = sanitizeText(article.titulo?.[currentLang] || article.titulo?.['en'] || '');
+        const safeDesc = sanitizeText(article.descripcion?.[currentLang] || article.descripcion?.['en'] || '');
+        const image = article.imagen || "placeholder.png";
 
         card.setAttribute('data-title', normalizeText(safeTitle));
         card.setAttribute('data-desc', normalizeText(safeDesc));
 
         const cardLink = document.createElement("a");
         const isExternal = article.slug.startsWith("http");
-        const href = isExternal ? article.slug : PATHS.ARTICLES + article.slug + ".html";
+        const href = isExternal
+            ? article.slug
+            : `${PATHS.ARTICLES}article.html?slug=${article.slug}&lang=${currentLang}`;
         cardLink.href = href;
         cardLink.className = "card-link";
 
@@ -114,9 +124,9 @@ function renderArticles(articles) {
 
         card.appendChild(cardLink);
 
-        if (article.image) {
+        if (image) {
             const img = document.createElement("img");
-            img.src = PATHS.IMG + article.image;
+            img.src = PATHS.IMG + image;
             img.alt = safeTitle;
             img.className = "pixel-art";
             card.appendChild(img);
@@ -194,8 +204,8 @@ function filterArticles(searchText) {
 
     cards.forEach(card => {
         const title = card.getAttribute('data-title') || '';
-        const desc = card.getAttribute('data-desc') || '';
-        const matches = title.includes(lowerText) || desc.includes(lowerText);
+        const matches = title.includes(lowerText);
         card.classList.toggle('hidden', !matches);
     });
 }
+
