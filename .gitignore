@@ -1,0 +1,35 @@
+# === NODE.JS ===
+node_modules/
+package-lock.json
+npm-debug.log
+
+# === IDEs ===
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# === SISTEMAS OPERATIVOS ===
+.DS_Store
+Thumbs.db
+
+# === ARCHIVOS TEMPORALES Y DE BACKUP ===
+*.log
+*.tmp
+*.bak
+*.swp
+
+# === CARPETAS DE OUTPUT ===
+/output/
+/dist/
+/build/
+
+# === ARCHIVOS PERSONALES Y LOCALES ===
+.env
+.env.local
+.secret
+*.key
+*.pem
+
+# === ARTÍCULOS GENERADOS (si usas markdown convertidos) ===
+*.html~        # copias generadas temporalmente
