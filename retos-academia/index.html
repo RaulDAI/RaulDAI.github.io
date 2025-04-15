@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Retos Academia</title>
-    <link rel="stylesheet" href="estilos.css"/>
+    <link rel="stylesheet" href="estilos.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -14,29 +14,58 @@
     ☰
 </button>
 
-<!-- Menú lateral accesible -->
+<!-- Menú lateral -->
 <nav id="mySidenav" class="sidenav" aria-label="Menú principal" role="navigation">
-    <a href="javascript:void(0)" onclick="mostrarSeccion('retos')" data-seccion="retos">
+    <button type="button" onclick="mostrarSeccion('retos')" data-seccion="retos" class="nav-btn">
         <i data-lucide="list-check" class="icono"></i>
         Retos
-    </a>
-    <a href="javascript:void(0)" onclick="mostrarSeccion('graficos')" data-seccion="graficos">
+    </button>
+    <button type="button" onclick="mostrarSeccion('graficos')" data-seccion="graficos" class="nav-btn">
         <i data-lucide="bar-chart-3" class="icono"></i>
         Gráficos
-    </a>
+    </button>
 </nav>
 
 <!-- Contenido principal -->
 <main id="main" tabindex="-1">
-    <section id="seccion-retos" class="seccion">
-        <h1 class="titulo">📘 Retos</h1>
-        <p>Aquí irá la gestión de retos.</p>
+
+    <!-- Sección Retos -->
+    <section class="seccion" id="seccion-retos">
+        <div class="retos-header">
+            <h1 class="titulo titulo-con-boton">
+                📘 Retos
+                <button class="btn-mas" onclick="agregarReto()" aria-label="Agregar nuevo reto">
+                    <i data-lucide="plus"></i>
+                </button>
+            </h1>
+        </div>
+        <div class="tabla-retos">
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th><i data-lucide="file-text"></i> Nombre</th>
+                    <th><i data-lucide="layers"></i> Categoría</th>
+                    <th><i data-lucide="clock"></i> Horas estimadas</th>
+                    <th><i data-lucide="alarm-clock"></i> Horas reales</th>
+                    <th><i data-lucide="calendar-days"></i> Fecha inicial</th>
+                    <th><i data-lucide="calendar-check"></i> Fecha final</th>
+                    <th><i data-lucide="star"></i> Puntos ganados</th>
+                    <th><i data-lucide="trash-2"></i></th>
+                </tr>
+                </thead>
+                <tbody id="tabla-cuerpo-retos">
+                </tbody>
+            </table>
+        </div>
     </section>
 
-    <section id="seccion-graficos" class="seccion hidden">
+    <!-- Sección Gráficos -->
+    <section class="seccion hidden" id="seccion-graficos">
         <h1 class="titulo">📊 Gráficos</h1>
         <p>Aquí se mostrarán los gráficos de desempeño.</p>
     </section>
+
 </main>
 
 <script src="main-app.js" defer></script>
@@ -45,6 +74,5 @@
         lucide.createIcons();
     });
 </script>
-
 </body>
 </html>
