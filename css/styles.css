@@ -83,7 +83,7 @@ body:hover::-webkit-scrollbar-thumb {
     border: 1px solid #333;
     border-radius: 28px;
     padding: 0.8rem 1rem;
-    white-space: nowrap;      /* evita salto de línea */
+    white-space: nowrap;
 }
 
 .search-box input {
@@ -96,23 +96,16 @@ body:hover::-webkit-scrollbar-thumb {
     font-size: 1.5rem;
     font-family: 'JetBrains Mono', monospace;
     padding: 0.5rem 0;
-
-    /* aquí se controla el scroll horizontal real */
     white-space: nowrap;
     overflow-x: auto;
     scroll-behavior: smooth;
-
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/*  para Chrome y navegadores WebKit */
 .search-box input::-webkit-scrollbar {
     display: none;
 }
-
-
-
 
 .search-icon {
     display: flex;
@@ -130,16 +123,6 @@ body:hover::-webkit-scrollbar-thumb {
     transform: scaleX(-1);
 }
 
-.search-box input {
-    font-family: 'JetBrains Mono', monospace;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #eee;
-    font-size: 1.5rem;
-    flex: 1;
-}
-
 /* ----------------------------------------
   BOTONES DE IDIOMA
 ---------------------------------------- */
@@ -155,7 +138,7 @@ body:hover::-webkit-scrollbar-thumb {
     font-family: 'JetBrains Mono', monospace;
     background-color: #222;
     border: 1px solid #444;
-    color: #f2f2f2; /* Mejor contraste */
+    color: #f2f2f2;
     padding: 0.3rem 0.7rem;
     font-size: 0.8rem;
     border-radius: 6px;
@@ -206,7 +189,6 @@ p {
     margin-top: 3rem;
 }
 
-
 .article-card {
     background-color: #1e1e1e;
     border: 1px solid #333;
@@ -220,6 +202,8 @@ p {
     max-width: 320px;
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
 .article-card:hover {
@@ -261,11 +245,6 @@ p {
 /* ----------------------------------------
   ENLACE COMPLETO EN TARJETAS
 ---------------------------------------- */
-.article-card {
-    position: relative;
-    overflow: hidden;
-}
-
 .card-link {
     position: absolute;
     inset: 0;
@@ -287,18 +266,72 @@ p {
     color: #fff;
 }
 
-
 /* ----------------------------------------
-  MEDIA QUERIES
+  FIXES MÓVILES (RESPONSIVE MEJORADO)
 ---------------------------------------- */
-@media (max-width: 300px) {
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+
+    .search-wrapper {
+        display: flex;
+        flex-wrap: nowrap; /* 👈 Prohibimos el salto de línea */
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        overflow-x: auto; /* 👈 Permite desplazamiento si no cabe todo */
+    }
+
+    .search-box {
+        flex: 1 1 auto;
+        min-width: 0; /* 👈 Permite que se encoja antes de romper el layout */
+        max-width: 100%;
+        border-radius: 20px;
+        padding: 0.8rem 1rem;
+    }
+
     .search-box input {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 
     .lang-buttons {
-        top: 0.5rem;
-        right: 0.5rem;
+        margin-left: auto;
+        display: flex;
+        gap: 0.5rem;
+        padding: 0;
+        margin: 0;
+        flex-shrink: 0; /* 👈 Que no se encoja */
+    }
+
+    .lang-buttons button {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+        min-height: 36px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .article-card h2 {
+        font-size: 1.2rem;
+    }
+
+    .article-card p {
+        font-size: 0.95rem;
+    }
+
+    .article-card {
+        padding: 1rem;
+    }
+
+    .article-card img {
+        border-radius: 6px;
     }
 
     .lang-spacer {

@@ -22,14 +22,17 @@ langs.forEach(lang => {
     files.forEach(file => {
         const raw = fs.readFileSync(path.join(dir, file), "utf8");
         const { data: meta, content } = matter(raw);
+
+        if (!meta.slug || typeof meta.slug !== "string") {
+            throw new Error(`❌ El archivo '${file}' en '${lang}' no tiene un 'slug' válido. Revisa su front matter.`);
+        }
+
         const html = purify.sanitize(marked.parse(content));
 
-        if (meta.slug) {
-            fullData[lang][meta.slug] = {
-                ...meta,
-                html
-            };
-        }
+        fullData[lang][meta.slug] = {
+            ...meta,
+            html
+        };
     });
 });
 
