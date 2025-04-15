@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Retos Academia</title>
+    <link rel="stylesheet" href="estilos.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<!-- Botón para abrir el menú -->
+<button class="openbtn" id="menuToggle" onclick="toggleNav()" aria-label="Abrir menú lateral" aria-expanded="false" aria-controls="mySidenav">
+    ☰
+</button>
+
+<!-- Menú lateral accesible -->
+<nav id="mySidenav" class="sidenav" aria-label="Menú principal" role="navigation">
+    <a href="javascript:void(0)" onclick="mostrarSeccion('retos')" data-seccion="retos">
+        <i data-lucide="list-check" class="icono"></i>
+        Retos
+    </a>
+    <a href="javascript:void(0)" onclick="mostrarSeccion('graficos')" data-seccion="graficos">
+        <i data-lucide="bar-chart-3" class="icono"></i>
+        Gráficos
+    </a>
+</nav>
+
+<!-- Contenido principal -->
+<main id="main" tabindex="-1">
+    <section id="seccion-retos" class="seccion">
+        <h1 class="titulo">📘 Retos</h1>
+        <p>Aquí irá la gestión de retos.</p>
+    </section>
+
+    <section id="seccion-graficos" class="seccion hidden">
+        <h1 class="titulo">📊 Gráficos</h1>
+        <p>Aquí se mostrarán los gráficos de desempeño.</p>
+    </section>
+</main>
+
+<script src="main-app.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+    });
+</script>
+
+</body>
+</html>
