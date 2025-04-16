@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Retos Academia</title>
-    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="retos.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
 
 <!-- Menú lateral -->
 <nav id="mySidenav" class="sidenav" aria-label="Menú principal" role="navigation">
-    <button type="button" onclick="mostrarSeccion('retos')" data-seccion="retos" class="nav-btn">
+    <button type="button" onclick="mostrarSeccion('retos')" data-seccion="retos" class="nav-btn activo">
         <i data-lucide="list-check" class="icono"></i>
         Retos
     </button>
@@ -44,18 +44,96 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th><i data-lucide="file-text"></i> Nombre</th>
-                    <th><i data-lucide="layers"></i> Categoría</th>
-                    <th><i data-lucide="clock"></i> Horas estimadas</th>
-                    <th><i data-lucide="alarm-clock"></i> Horas reales</th>
-                    <th><i data-lucide="calendar-days"></i> Fecha inicial</th>
-                    <th><i data-lucide="calendar-check"></i> Fecha final</th>
-                    <th><i data-lucide="star"></i> Puntos ganados</th>
-                    <th><i data-lucide="trash-2"></i></th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="file-text"></i>
+                                <span>Nombre</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="layers"></i>
+                                <span>Categoría</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="clock"></i>
+                                <span>Tiempo Estimado</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="alarm-clock"></i>
+                                <span>Tiempo Real</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="calendar-days"></i>
+                                <span>Fecha Inicial</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="calendar-check"></i>
+                                <span>Fecha Final</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="star"></i>
+                                <span>Puntos</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="award"></i>
+                                <span>Insignia</span>
+                            </span>
+                    </th>
+                    <th>
+                            <span class="th-icon-text">
+                                <i data-lucide="trash-2"></i>
+                            </span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="tabla-cuerpo-retos">
+                <!-- Fila inicial predeterminada con íconos de insignia -->
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" placeholder="Nombre del reto" /></td>
+                    <td>
+                        <select>
+                            <option>Esculpido</option>
+                            <option>Retopología</option>
+                            <option>UVs + Bake</option>
+                            <option>Texturizado</option>
+                            <option>Animación</option>
+                            <option>Motor Unity</option>
+                        </select>
+                    </td>
+                    <td><input type="number" placeholder="Horas estimadas" /></td>
+                    <td><input type="number" placeholder="Horas reales" /></td>
+                    <td><input type="date" /></td>
+                    <td><input type="date" /></td>
+                    <td><input type="number" placeholder="Puntos" /></td>
+                    <td>
+                        <div style="display: flex; gap: 6px; justify-content: center;">
+                            <i data-lucide="medal"></i>
+                            <i data-lucide="sun"></i>
+                            <i data-lucide="lock"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn-eliminar" onclick="eliminarReto(this)" disabled>
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </td>
+                </tr>
                 </tbody>
+
             </table>
         </div>
     </section>
@@ -68,11 +146,14 @@
 
 </main>
 
-<script src="main-app.js" defer></script>
+<script src="retos.js" defer></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         lucide.createIcons();
+        mostrarSeccion('retos');
+        document.querySelector('[data-seccion="retos"]').classList.add('activo');
     });
 </script>
+
 </body>
 </html>

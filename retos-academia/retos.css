@@ -2,7 +2,6 @@
     --sidebar-width: 180px;
 }
 
-
 /* ================================================
    🎨 ESTILO GENERAL
 ================================================== */
@@ -27,21 +26,18 @@ body {
     display: none !important;
 }
 
-
 /* ================================================
    📦 CONTENEDOR PRINCIPAL
 ================================================== */
 #main {
     margin-left: 0;
-    padding: 50px 20px 20px 30px; /* top, right, bottom, left */
+    padding: 50px 20px 20px 30px;
     transition: margin-left 0.2s ease-out;
 }
-
 
 .sidenav.abierta + #main {
     margin-left: var(--sidebar-width);
 }
-
 
 /* ================================================
    📚 MENÚ LATERAL (SIDENAV)
@@ -59,8 +55,6 @@ body {
     transition: width 0.2s ease-out;
     padding-top: 75px;
     padding-bottom: 40px;
-    padding-left: 0;
-    padding-right: 0;
 }
 
 .sidenav.abierta {
@@ -74,45 +68,35 @@ body {
     pointer-events: none;
 }
 
-
-/* Enlaces del menú */
 .sidenav a {
     text-decoration: none;
     font-size: 18px;
     color: #f9fafb;
-    padding: 10px 16px;
-    padding-left: 20px; /* simula espacio del "borde" */
+    padding: 10px 16px 10px 20px;
     display: flex;
     align-items: center;
     gap: 8px;
     border-radius: 6px;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
     transition: background-color 0.2s ease,
     padding-left 0.2s ease,
     color 0.2s ease;
-    pointer-events: auto;
     cursor: pointer;
 }
 
 .sidenav a.activo {
     background-color: #3b3b3b;
     padding-left: 24px;
-    border-radius: 6px;
     color: #fff;
 }
-
 
 .sidenav a:hover {
     background-color: #2b2b2b;
-    padding-left: 24px; /* este desplazamiento simula el movimiento */
+    padding-left: 24px;
     color: #fff;
-    pointer-events: auto;
 }
-
 
 /* ================================================
    🔘 BOTÓN DE APERTURA (☰)
@@ -124,21 +108,17 @@ body {
     color: white;
     padding: 10px 15px;
     border: none;
-
     position: fixed;
     top: 10px;
     left: 10px;
-
     z-index: 11;
     border-radius: 6px;
     transition: background-color 0.2s ease;
 }
 
-
 .openbtn:hover {
     background-color: #444;
 }
-
 
 /* ================================================
    🖼️ ÍCONOS LUCIDE
@@ -152,6 +132,9 @@ body {
     flex-shrink: 0;
 }
 
+/* ================================================
+   📋 TABLA DE RETOS
+================================================== */
 .tabla-retos table {
     width: 100%;
     border-collapse: collapse;
@@ -162,19 +145,41 @@ body {
 .tabla-retos td {
     border-bottom: 1px solid #333;
     padding: 10px 12px;
-    text-align: left;
-}
-
-.tabla-retos th i {
-    margin-right: 6px;
     vertical-align: middle;
+    font-size: 14px;
+    text-align: center; /* por defecto */
 }
 
+.tabla-retos th {
+    white-space: nowrap;
+    text-align: left;
+    padding-left: 11px;
+}
+
+/* Calibración visual solo para primera y última columna */
+.tabla-retos th:nth-child(1),
+.tabla-retos th:nth-child(10) {
+    text-align: left;
+    padding-left: 16px; /* 👈 puedes ajustar aquí: prueba con 18px, 20px, 22px */
+}
+
+/* Contenedor ícono + texto alineados */
+.th-icon-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    line-height: 1;
+}
+
+/* Hover de filas */
 .tabla-retos tbody tr:hover {
     background-color: #1e1e1e;
 }
 
-.tabla-retos input {
+/* Inputs y selects */
+.tabla-retos input,
+.tabla-retos select {
     width: 100%;
     background-color: #222;
     border: 1px solid #333;
@@ -182,14 +187,31 @@ body {
     padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
+    appearance: none;
 }
 
-#btnAgregarReto {
-    margin-top: 1rem;
-    padding: 8px 12px;
-    font-size: 18px;
+.tabla-retos select:focus {
+    outline: 2px solid #444;
 }
 
+/* Campo especial para Insignia */
+.tabla-retos input[placeholder*="Insignia"] {
+    background-color: #1f1f1f;
+    font-style: italic;
+    color: #ccc;
+}
+
+/* Íconos del encabezado */
+.tabla-retos th i {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    line-height: 1;
+    height: 1em;
+    transform: translateY(1px);
+}
+
+/* Botón eliminar */
 .tabla-retos .btn-eliminar {
     background: none;
     border: none;
@@ -200,10 +222,28 @@ body {
 }
 
 .tabla-retos .btn-eliminar:hover {
-    color: #f87171; /* rojo suave */
+    color: #f87171;
+}
+
+.tabla-retos .btn-eliminar:disabled {
+    cursor: default;
+    opacity: 0.3;
+}
+
+/* Fila fantasma (opcional si no hay datos) */
+.fila-placeholder td {
+    opacity: 0;
+    pointer-events: none;
+    height: 1px;
+    padding: 0;
+    border: none;
 }
 
 
+
+/* ================================================
+   🧱 ENCABEZADO Y BOTÓN "+"
+================================================== */
 .retos-header {
     display: flex;
     align-items: center;
@@ -230,29 +270,11 @@ body {
     background-color: #444;
 }
 
-/* Estilo exclusivo para el título de "📘 Retos" con botón */
 .titulo-con-boton {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-
-.tabla-retos select {
-    width: 100%;
-    background-color: #222;
-    border: 1px solid #333;
-    color: #fff;
-    padding: 6px 8px;
-    border-radius: 4px;
-    font-family: inherit;
-    appearance: none;
-    cursor: pointer;
-}
-
-.tabla-retos select:focus {
-    outline: 2px solid #444;
-}
-
 
 /* ================================================
    🧭 BOTONES DE MENÚ LATERAL
@@ -262,7 +284,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 10px 16px 10px 20px; /* 👈 este es el base */
+    padding: 10px 16px 10px 20px;
     font-size: 18px;
     color: #f9fafb;
     border-radius: 6px;
@@ -273,10 +295,9 @@ body {
     cursor: pointer;
     margin: 0;
     box-sizing: border-box;
-
     transition: background-color 0.2s ease,
     padding-left 0.2s ease,
-    color 0.2s ease; /* ✅ Añade estas transiciones */
+    color 0.2s ease;
 }
 
 .nav-btn.activo {
@@ -285,11 +306,64 @@ body {
     border-radius: 8px;
 }
 
-
 .nav-btn:hover {
     background-color: #2b2b2b;
     color: #fff;
-    padding-left: 24px; /* 👈 este es el efecto de “empuje” */
+    padding-left: 24px;
+}
+
+/* ================================================
+   📐 ANCHOS FIJOS POR COLUMNA
+================================================== */
+
+.tabla-retos th:nth-child(1),
+.tabla-retos td:nth-child(1) {
+    width: 10px;
+}
+
+.tabla-retos th:nth-child(2),
+.tabla-retos td:nth-child(2) {
+    width: 180px;
+}
+
+.tabla-retos th:nth-child(3),
+.tabla-retos td:nth-child(3) {
+    width: 140px;
+}
+
+.tabla-retos th:nth-child(4),
+.tabla-retos td:nth-child(4) {
+    width: 130px;
+}
+
+.tabla-retos th:nth-child(5),
+.tabla-retos td:nth-child(5) {
+    width: 130px;
+}
+
+.tabla-retos th:nth-child(6),
+.tabla-retos td:nth-child(6) {
+    width: 130px;
+}
+
+.tabla-retos th:nth-child(7),
+.tabla-retos td:nth-child(7) {
+    width: 130px;
+}
+
+.tabla-retos th:nth-child(8),
+.tabla-retos td:nth-child(8) {
+    width: 100px;
+}
+
+.tabla-retos th:nth-child(9),
+.tabla-retos td:nth-child(9) {
+    width: 100px;
+}
+
+.tabla-retos th:nth-child(10),
+.tabla-retos td:nth-child(10) {
+    width: 10px;
 }
 
 
@@ -306,7 +380,6 @@ body {
     }
 
     .openbtn {
-        position: fixed;
         top: 10px;
         left: 10px;
     }

@@ -32,7 +32,6 @@ function mostrarSeccion(nombre) {
         target.classList.remove('hidden');
     }
 
-    // ✅ Marca como activo el botón correcto
     const enlaces = document.querySelectorAll('.sidenav button');
     enlaces.forEach(link => {
         const seccion = link.getAttribute('data-seccion');
@@ -40,7 +39,7 @@ function mostrarSeccion(nombre) {
     });
 }
 
-function agregarReto() {
+function agregarReto(esInicial = false) {
     const cuerpo = document.getElementById("tabla-cuerpo-retos");
     const nuevaFila = document.createElement("tr");
 
@@ -63,7 +62,14 @@ function agregarReto() {
         <td><input type="date" /></td>
         <td><input type="number" placeholder="Puntos" /></td>
         <td>
-            <button class="btn-eliminar" onclick="eliminarReto(this)">
+            <div style="display: flex; gap: 6px; justify-content: center;">
+                <i data-lucide="medal"></i>
+                <i data-lucide="sun"></i>
+                <i data-lucide="lock"></i>
+            </div>
+        </td>
+        <td>
+            <button class="btn-eliminar" onclick="eliminarReto(this)" ${esInicial ? "disabled" : ""}>
                 <i data-lucide="trash-2"></i>
             </button>
         </td>
@@ -76,15 +82,15 @@ function agregarReto() {
 
 
 function eliminarReto(boton) {
+    const cuerpo = document.getElementById("tabla-cuerpo-retos");
+    const filas = cuerpo.querySelectorAll("tr");
+    if (filas.length <= 1) return;
+
     const fila = boton.closest("tr");
     fila.remove();
 
-    // Reenumerar filas
-    const filas = document.querySelectorAll("#tabla-cuerpo-retos tr");
-    filas.forEach((tr, i) => {
-        const numeroCelda = tr.querySelector("td:first-child");
-        if (numeroCelda) numeroCelda.textContent = i + 1;
-    });
+    actualizarNumeracion();
+    actualizarBotonesEliminar();
 }
 
 function actualizarNumeracion() {
@@ -94,8 +100,34 @@ function actualizarNumeracion() {
     filas.forEach((fila, index) => {
         const celdaNumero = fila.querySelector('td');
         if (celdaNumero) {
-            celdaNumero.textContent = total - index; // orden invertido: más nuevo arriba
+            celdaNumero.textContent = total - index;
         }
     });
 }
 
+function actualizarBotonesEliminar() {
+    const filas = document.querySelectorAll('#tabla-cuerpo-retos tr');
+    const botones = document.querySelectorAll('.btn-eliminar');
+
+    botones.forEach(btn => {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+    });
+
+    if (filas.length === 1) {
+        const unicoBtn = filas[0].querySelector('.btn-eliminar');
+        if (unicoBtn) {
+            unicoBtn.disabled = true;
+            unicoBtn.style.opacity = "0.3";
+            unicoBtn.style.cursor = "default";
+        }
+    }
+}
+
+// ✅ Asegura que haya al menos una fila al cargar
+document.addEventListener("DOMContentLoaded", () => {
+    lucide.createIcons();
+    mostrarSeccion('retos');
+    document.querySelector('[data-seccion="retos"]').classList.add('activo');
+});
