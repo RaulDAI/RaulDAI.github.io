@@ -35,3 +35,7 @@ Thumbs.db
 
 # === ARTÍCULOS GENERADOS (si usas markdown convertidos) ===
 *.html~        # copias generadas temporalmente
+
+
+# === Ignorar archivos del sistema de Windows ===
+desktop.ini

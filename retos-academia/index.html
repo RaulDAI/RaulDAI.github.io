@@ -33,42 +33,62 @@
 
     <!-- Sección Retos -->
     <section class="seccion" id="seccion-retos">
-        <div class="retos-header">
-            <h1 class="titulo titulo-con-boton">
-                📘 Retos
-                <button class="btn-mas" onclick="agregarReto()" aria-label="Agregar nuevo reto">
-                    <i data-lucide="plus"></i>
-                </button>
-            </h1>
-        </div>
+        <div class="centrado-columna">
+            <div class="ancho-contenido">
 
-        <div class="tabla-retos">
-            <table>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th><i data-lucide="file-text"></i> Nombre</th>
-                    <th><i data-lucide="layers"></i> Etapa</th>
-                    <th><i data-lucide="clock"></i> Tiempo Estimado</th>
-                    <th><i data-lucide="alarm-clock"></i> Tiempo Real</th>
-                    <th><i data-lucide="calendar-days"></i> Fecha Inicial</th>
-                    <th><i data-lucide="calendar-check"></i> Fecha Final</th>
-                    <th><i data-lucide="star"></i> Puntos</th>
-                    <th><i data-lucide="award"></i> Insignia</th>
-                    <th><i data-lucide="trash-2"></i></th>
-                </tr>
-                </thead>
-                <tbody id="tabla-cuerpo-retos">
-                <!-- Se llena desde retos.js -->
-                </tbody>
-            </table>
+                <!-- Retos Header alineado a la izquierda -->
+                <div class="retos-header">
+                    <h1 class="titulo titulo-con-boton">
+                        Retos JuanK [Aprendiz - Nv 1]
+                        <button class="btn-mas" onclick="agregarReto()" aria-label="Agregar nuevo reto">
+                            <i data-lucide="plus"></i>
+                        </button>
+                    </h1>
+                </div>
+
+                <!-- Tabla -->
+                <div class="tabla-retos">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><i data-lucide="file-text"></i> Nombre</th>
+                            <th><i data-lucide="layers"></i> Etapa</th>
+                            <th><i data-lucide="clock"></i> t Estimado</th>
+                            <th><i data-lucide="alarm-clock"></i> t Real</th>
+                            <th><i data-lucide="calendar-days"></i> Fecha Inicial</th>
+                            <th><i data-lucide="calendar-check"></i> Fecha Final</th>
+                            <th><i data-lucide="star"></i> Puntos</th> <!-- no editable -->
+                            <th><i data-lucide="medal"></i> Insignia</th>
+                            <th><i data-lucide="trash-2"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody id="tabla-cuerpo-retos">
+                        <!-- Se llena dinámicamente desde retos.js -->
+                        <!-- Ejemplo de fila:
+                        <tr>
+                            ...
+                            <td class="celda-puntos"><span class="valor-puntos">0</span></td>
+                            ...
+                        </tr>
+                        -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
         </div>
     </section>
 
     <!-- Sección Gráficos -->
     <section class="seccion hidden" id="seccion-graficos">
-        <h1 class="titulo">📊 Gráficos</h1>
-        <p>Aquí se mostrarán los gráficos de desempeño.</p>
+        <div class="centrado-columna">
+            <div class="ancho-contenido">
+                <h1 class="titulo">Gráficos</h1>
+                <p>Aquí se mostrarán los gráficos de desempeño.</p>
+            </div>
+        </div>
     </section>
 
 </main>
@@ -88,7 +108,7 @@
 <!-- Modal para sumar tiempo real -->
 <div id="modal-tiempo" class="modal-overlay hidden" onclick="cerrarModal(event)">
     <div class="modal-contenido" onclick="event.stopPropagation()">
-        <h2 class="modal-titulo">Sumar Tiempo Real</h2>
+        <h2 class="modal-titulo">Sumar a Tiempo Real</h2>
 
         <div class="tiempo-input">
             <input type="text" id="inputHoras" data-tipo="horas" maxlength="2" inputmode="numeric"
@@ -98,7 +118,7 @@
         </div>
 
         <div class="modal-botones">
-            <button onclick="confirmarSumaTiempo()" class="btn-confirmar">Agregar</button>
+            <button onclick="confirmarSumaTiempo()" class="btn-confirmar">Sumar</button>
             <button onclick="cerrarModal()" class="btn-cancelar">Cancelar</button>
         </div>
     </div>
@@ -106,4 +126,3 @@
 
 </body>
 </html>
-

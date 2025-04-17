@@ -1,5 +1,6 @@
 ﻿:root {
     --sidebar-width: 180px;
+    --font-main: 'JetBrains Mono', monospace;
 }
 
 /* ================================================
@@ -25,6 +26,15 @@ body {
 .hidden {
     display: none !important;
 }
+
+input:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #888;
+    box-shadow: 0 0 0 1px #888;
+}
+
+
 
 /* ================================================
    📦 CONTENEDOR PRINCIPAL
@@ -133,21 +143,46 @@ body {
 }
 
 /* ================================================
+   📐 CENTRADO DE SECCIONES
+================================================== */
+.centrado-columna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ancho-contenido {
+    width: 100%;
+    max-width: 1280px;
+}
+
+
+
+/* ================================================
    📋 TABLA DE RETOS
 ================================================== */
-.tabla-retos table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+.tabla-retos {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
 }
+
+
+.tabla-retos table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
 
 .tabla-retos th,
 .tabla-retos td {
-    border-bottom: 1px solid #333;
-    padding: 10px 12px;
-    vertical-align: middle;
-    font-size: 14px;
-    text-align: center; /* por defecto */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px 6px;
 }
 
 .tabla-retos th {
@@ -156,14 +191,23 @@ body {
     padding-left: 11px;
 }
 
-/* Calibración visual solo para primera y última columna */
-.tabla-retos th:nth-child(1),
-.tabla-retos th:nth-child(10) {
-    text-align: left;
-    padding-left: 16px; /* 👈 puedes ajustar aquí: prueba con 18px, 20px, 22px */
+.tabla-retos td select,
+.tabla-retos td input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-/* Contenedor ícono + texto alineados */
+
+.tabla-retos th:nth-child(1),
+.tabla-retos th:nth-child(4),
+.tabla-retos th:nth-child(5),
+.tabla-retos th:nth-child(8),
+.tabla-retos th:nth-child(9),
+.tabla-retos th:nth-child(10) {
+    text-align: center;
+}
+
 .th-icon-text {
     display: inline-flex;
     align-items: center;
@@ -172,14 +216,11 @@ body {
     line-height: 1;
 }
 
-/* Hover de filas */
 .tabla-retos tbody tr:hover {
     background-color: #1e1e1e;
 }
 
-/* Inputs y selects */
-.tabla-retos input,
-.tabla-retos select {
+.tabla-retos input {
     width: 100%;
     background-color: #222;
     border: 1px solid #333;
@@ -190,18 +231,34 @@ body {
     appearance: none;
 }
 
+.tabla-retos select {
+    width: auto;
+    min-width: 100%;
+    max-width: 100%;
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-family: inherit;
+    appearance: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+
 .tabla-retos select:focus {
     outline: 2px solid #444;
 }
 
-/* Campo especial para Insignia */
 .tabla-retos input[placeholder*="Insignia"] {
     background-color: #1f1f1f;
     font-style: italic;
     color: #ccc;
 }
 
-/* Íconos del encabezado */
 .tabla-retos th i {
     display: inline-block;
     vertical-align: middle;
@@ -211,7 +268,6 @@ body {
     transform: translateY(1px);
 }
 
-/* Botón eliminar */
 .tabla-retos .btn-eliminar {
     background: none;
     border: none;
@@ -230,7 +286,6 @@ body {
     opacity: 0.3;
 }
 
-/* Fila fantasma (opcional si no hay datos) */
 .fila-placeholder td {
     opacity: 0;
     pointer-events: none;
@@ -239,18 +294,24 @@ body {
     border: none;
 }
 
-
-
 /* ================================================
    🧱 ENCABEZADO Y BOTÓN "+"
 ================================================== */
 .retos-header {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: flex-start; /* <-- clave */
+    gap: 5px;
     margin-bottom: 1rem;
 }
+
+.ancho-contenido {
+    width: 100%;
+    max-width: max-content; /* igual que la tabla-retos */
+}
+
+
 
 .btn-mas {
     background-color: #2b2b2b;
@@ -264,6 +325,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease;
+    margin-left: 12px;
 }
 
 .btn-mas:hover {
@@ -277,7 +339,7 @@ body {
 }
 
 /* ================================================
-   🧭 BOTONES DE MENÚ LATERAL
+   ✅ BOTONES MENÚ LATERAL ORDENADOS
 ================================================== */
 .nav-btn {
     all: unset;
@@ -300,78 +362,101 @@ body {
     color 0.2s ease;
 }
 
-.nav-btn.activo {
-    background-color: #3b3b3b;
-    color: #fff;
-    border-radius: 8px;
-}
-
 .nav-btn:hover {
     background-color: #2b2b2b;
     color: #fff;
     padding-left: 24px;
 }
 
+.nav-btn.activo {
+    background-color: #3b3b3b;
+    color: #fff;
+    border-radius: 8px;
+}
+
 /* ================================================
    📐 ANCHOS FIJOS POR COLUMNA
 ================================================== */
-
+/* Anchos fijos por columna */
 .tabla-retos th:nth-child(1),
 .tabla-retos td:nth-child(1) {
-    width: 10px;
+    text-align: center;
+    width: 50px;
 }
 
 .tabla-retos th:nth-child(2),
 .tabla-retos td:nth-child(2) {
-    width: 180px;
+    width: 200px;
 }
 
 .tabla-retos th:nth-child(3),
 .tabla-retos td:nth-child(3) {
-    width: 140px;
+    width: 125px;
+}
+
+
+.tabla-retos td:nth-child(4) {
+    text-align: center;
+    padding-left: 20px;
 }
 
 .tabla-retos th:nth-child(4),
 .tabla-retos td:nth-child(4) {
-    width: 130px;
+    width: 100px;
 }
 
 .tabla-retos th:nth-child(5),
 .tabla-retos td:nth-child(5) {
+    text-align: center;
+    
     width: 130px;
 }
 
 .tabla-retos th:nth-child(6),
 .tabla-retos td:nth-child(6) {
-    width: 130px;
+    width: 180px;
 }
 
 .tabla-retos th:nth-child(7),
 .tabla-retos td:nth-child(7) {
-    width: 130px;
+    width: 180px;
 }
 
 .tabla-retos th:nth-child(8),
 .tabla-retos td:nth-child(8) {
+
     width: 100px;
 }
 
 .tabla-retos th:nth-child(9),
 .tabla-retos td:nth-child(9) {
+
     width: 100px;
 }
 
 .tabla-retos th:nth-child(10),
 .tabla-retos td:nth-child(10) {
-    width: 10px;
+    text-align: center;
+    width: 32px;
 }
-/*__________________________________________*/
+
+/* ================================================
+   ⏱️ CAMPOS DE TIEMPO + MODAL
+================================================== */
 .tiempo-input {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
 }
+
+.separador {
+    display: inline-block;
+    width: 8px;
+    text-align: center;
+    color: #999;
+}
+
 
 .tiempo-input input[type="text"] {
     width: 32px;
@@ -381,17 +466,35 @@ body {
     text-align: center;
     padding: 4px;
     border-radius: 4px;
-    font-family: monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
-    appearance: none;      /* 🔥 quita flechitas */
+    appearance: none;
     -moz-appearance: textfield;
 }
+
 
 .tiempo-input input[type="text"]::-webkit-outer-spin-button,
 .tiempo-input input[type="text"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.tiempo-real-match {
+    background-color: #222;
+    border: 1px solid #444;
+    color: #48cc79;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    height: 28px;
+    line-height: 20px;
+    box-sizing: border-box;
+    width: auto; /* ✅ CORRECCIÓN */
+}
+
 
 
 .modal-overlay {
@@ -406,21 +509,47 @@ body {
 
 .modal-contenido {
     background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
+    border: 1px solid #555; /* antes era #333, ahora más visible */
+    border-radius: 10px;
     padding: 24px;
-    width: 260px;
-    box-shadow: 0 0 15px #000;
+    width: 280px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.07); /* mejora contraste visual */
     text-align: center;
 }
 
+
+.modal-contenido .tiempo-input input[type="text"] {
+    width: 44px;
+    height: 40px;
+    background-color: #222;
+    border: 1px solid #444;
+    color: #48cc79;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
+    font-weight: normal;
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
+.modal-contenido .tiempo-input input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #16a34a; /* cambia este verde por cualquier color que quieras */
+    box-shadow: 0 0 0 1px #16a34a;
+}
+
+
+
 .modal-titulo {
-    margin-bottom: 12px;
+    margin-bottom: 18px;
     font-size: 18px;
+    font-weight: lighter;
 }
 
 .modal-botones {
-    margin-top: 16px;
+    margin-top: 25px;
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -428,12 +557,16 @@ body {
 
 .btn-confirmar, .btn-cancelar {
     flex: 1;
-    padding: 8px;
+    padding: 10px;
     border-radius: 6px;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
+
 
 .btn-confirmar {
     background-color: #16a34a;
@@ -445,25 +578,88 @@ body {
     color: #eee;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .btn-sumar-tiempo {
     background: none;
-    border: 2px solid #f87171;
-    color: #f87171;
-    margin-left: 8px;
-    padding: 4px 6px;
+    border: 2px solid #16a34a;
+    color: #16a34a;
+    margin-left: 6px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+
+
 .btn-sumar-tiempo:hover {
-    background-color: #f87171;
+    background-color: rgba(22, 163, 74, 0.2);
     color: black;
 }
+
+
+.btn-sumar-tiempo:hover {
+    background-color: rgba(22, 163, 74, 0.50);
+    color: black;
+}
+
+
+.valor-puntos {
+    display: inline-block;
+    width: 48px;         /* similar al input original */
+    height: 28px;
+    line-height: 28px;
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+
+.celda-puntos {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+}
+
+
+.valor-puntos {
+    all: unset;
+    color: #3d3d3d;
+    /*color: #facc15;*/
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+
+
+.moneda-label {
+    color: #a1a1a1;      /* DES en rojo suave */
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+
+
+
+.celda-insignia {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3d3d3d;
+}
+
+.celda-insignia svg {
+    stroke: currentColor;
+}
+
+
 
 /* ================================================
    📱 RESPONSIVE

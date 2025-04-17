@@ -4,7 +4,7 @@
     "UVs + Bake",
     "Texturizado",
     "Animación",
-    "Motor Unity"
+    "Motor Unreal"
 ];
 
 const retos = [];
@@ -79,7 +79,7 @@ function renderRetos() {
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-            <td>${retos.length - i}</td>
+            <td style="text-align: center;">${retos.length - i}</td>
             <td><input type="text" value="${reto.nombre}" oninput="actualizarDato(${i}, 'nombre', this.value)" /></td>
             <td>
                 <select onchange="actualizarDato(${i}, 'etapa', this.value)" onfocus="renderOpcionesEtapas(this, ${i})">
@@ -91,7 +91,8 @@ function renderRetos() {
                 <input type="text" maxlength="2" inputmode="numeric" data-tipo="horas"
                        value="${Math.floor(reto.tiempoEstimado / 60).toString().padStart(2, '0')}"
                        oninput="filtrarNumeros(this)" 
-                       onblur="normalizarDosDigitos(this); actualizarDuracion(${i}, 'tiempoEstimado', this.value, 'horas')" />:
+                       onblur="normalizarDosDigitos(this); actualizarDuracion(${i}, 'tiempoEstimado', this.value, 'horas')" />
+                <span class="separador">:</span>
                 <input type="text" maxlength="2" inputmode="numeric" data-tipo="minutos"
                        value="${(reto.tiempoEstimado % 60).toString().padStart(2, '0')}"
                        oninput="filtrarNumeros(this)" 
@@ -100,7 +101,7 @@ function renderRetos() {
             </td>
             <td>
               <div class="tiempo-input">
-                <span>${formatearTiempo(reto.tiempoReal)}</span>
+                <span class="tiempo-real-match">${formatearTiempo(reto.tiempoReal)}</span>
                 <button class="btn-sumar-tiempo" onclick="abrirModal(${i})" aria-label="Sumar tiempo real">
                     <i data-lucide="plus"></i>
                 </button>
@@ -108,16 +109,21 @@ function renderRetos() {
             </td>
             <td><input type="date" value="${reto.fechaInicio}" onchange="actualizarDato(${i}, 'fechaInicio', this.value)" /></td>
             <td><input type="date" value="${reto.fechaFin}" onchange="actualizarDato(${i}, 'fechaFin', this.value)" /></td>
-            <td><input type="number" value="${reto.puntos}" onchange="actualizarDato(${i}, 'puntos', this.value)" /></td>
-            <td>
-                <div style="display: flex; gap: 6px; justify-content: center;">
-                    <i data-lucide="${reto.insignia || 'lock'}"></i>
-                </div>
+            <td class="celda-puntos">
+              <span class="valor-puntos">${reto.puntos.toString().padStart(1, '0')}</span>
+              <span class="moneda-label">DES</span>
             </td>
             <td>
-                <button class="btn-eliminar" onclick="eliminarReto(${i})" ${retos.length === 1 ? 'disabled' : ''}>
-                    <i data-lucide="trash-2"></i>
-                </button>
+              <div class="celda-insignia">
+                <i data-lucide="crown"></i>
+                <i data-lucide="trophy"></i>       
+                <i data-lucide="skull"></i>             
+              </div>
+            </td>
+            <td>
+              <button class="btn-eliminar" onclick="eliminarReto(${i})" ${retos.length === 1 ? 'disabled' : ''}>
+                  <i data-lucide="trash-2"></i>
+              </button>
             </td>
         `;
 
@@ -127,6 +133,8 @@ function renderRetos() {
     lucide.createIcons();
     document.querySelectorAll("select").forEach((select, index) => renderOpcionesEtapas(select, index));
 }
+
+
 
 function abrirModal(index) {
     indexActualParaSumar = index;
@@ -153,7 +161,7 @@ function confirmarSumaTiempo() {
         renderRetos();
     }
 
-    cerrarModal({ target: { id: "modal-tiempo" } });
+    cerrarModal({target: {id: "modal-tiempo"}});
 }
 
 function agregarReto() {
@@ -192,7 +200,7 @@ function actualizarDato(i, campo, valor) {
 function renderOpcionesEtapas(select, index) {
     const nombre = retos[index].nombre.trim();
     if (!nombre) {
-        select.innerHTML = '<option disabled selected value="">⛔ Escribe un nombre</option>';
+        select.innerHTML = '<option disabled selected value="">⛔ Nombre?</option>';
         select.disabled = true;
         return;
     }
