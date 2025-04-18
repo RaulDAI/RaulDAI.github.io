@@ -299,6 +299,8 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             renderFila(i);
         }
 
+        // ⏬ Nuevo: guarda el reto editado en Supabase
+        actualizarRetoEnSupabase(i);
     }
 
 
@@ -400,8 +402,13 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         });
 
         const data = await response.json();
+        if (Array.isArray(data) && data.length > 0 && data[0].id) {
+            reto.id = data[0].id; // ⬅️ importante para poder actualizar después
+        }
+
         console.log("Guardado en Supabase:", data);
     }
+
 
     // 📥 Leer todos los retos desde Supabase
     async function obtenerRetosDesdeSupabase() {
@@ -434,6 +441,36 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         renderRetos();
     }
 
+    // 🔄 Actualizar reto en Supabase por ID
+    async function actualizarRetoEnSupabase(index) {
+        const r = retos[index];
+        const id = r.id;
+        if (!id) return;
+
+        const body = {
+            nombre: r.nombre,
+            etapa: r.etapa,
+            tiempo_estimado: r.tiempoEstimado,
+            tiempo_real: r.tiempoReal,
+            fecha_inicio: r.fechaInicio,
+            fecha_fin: r.fechaFin,
+            puntos: r.puntos,
+            insignia: r.insignia
+        };
+
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?id=eq.${id}`, {
+            method: "PATCH",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        console.log("Actualizado en Supabase:", data);
+    }
 
 
 })();
