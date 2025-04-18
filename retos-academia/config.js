@@ -1,0 +1,2 @@
+﻿const SUPABASE_URL = "https://zfcrgjiaccjdnftkzzku.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY3JnamlhY2NqZG5mdGt6emt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5NjM3MjIsImV4cCI6MjA2MDUzOTcyMn0.nUza31_OZ3TA-FIyv0qYZIq8VbqGFTfgaGoLv1ur8B4";

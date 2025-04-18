@@ -1,7 +1,4 @@
-﻿// 🗝️ Conexión Supabase
-const SUPABASE_URL = "https://pntcfiysvfzfnuisitlf.supabase.co"; // reemplaza con tu URL completa
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBudGNmaXlzdmZ6Zm51aXNpdGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5NTU5NDYsImV4cCI6MjA2MDUzMTk0Nn0.am9KFi0n6KVQdVenej2WVqnBuYZi1vgwDs-Q3voGnss"; // reemplaza con tu anon key completa
-
+﻿import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 
 (() => {
 
