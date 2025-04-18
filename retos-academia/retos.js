@@ -1,5 +1,8 @@
 ﻿(() => {
 
+    const API_URL = "https://script.google.com/macros/s/AKfycbwv5pjwNClXuEDWn3q4s-f43Xapc_Ng_YfRQUDy--2gQirCt9Smh0s85R1XdHwOaZ8-/exec";
+
+
     const etapasTotales = [
         "Esculpido",
         "Retopología",
@@ -57,6 +60,8 @@
         if (tipo === "minutos") minutos = Math.max(0, Math.min(59, valor));
 
         retos[index][campo] = horas * 60 + minutos;
+        guardarRetosEnAPI();
+
     }
 
     function filtrarNumeros(input) {
@@ -245,6 +250,7 @@
         if (total > 0) {
             retos[indexActualParaSumar].tiempoReal += total;
             renderFila(indexActualParaSumar);
+            guardarRetosEnAPI();
         }
 
 
@@ -263,19 +269,20 @@
             insignia: ""
         });
         renderRetos();
+        guardarRetosEnAPI();
     }
 
     function eliminarReto(i) {
         if (retos.length <= 1) return;
         retos.splice(i, 1);
         renderRetos();
+        guardarRetosEnAPI();
     }
 
     function actualizarDato(i, campo, valor) {
         retos[i][campo] = valor;
 
         if (campo === "etapa") renderFila(i);
-
 
         if (campo === "nombre") {
             retos[i].etapa = "";
@@ -287,9 +294,11 @@
         if (campo === "fechaInicio" || campo === "fechaFin") {
             validarFechas(i);
             renderFila(i);
-
         }
+
+        guardarRetosEnAPI(); // ← lo mueves aquí abajo, así guarda para cualquier campo
     }
+
 
     function validarFechas(i) {
         const fila = document.querySelectorAll("#tabla-cuerpo-retos tr")[i];
@@ -347,11 +356,52 @@
         select.value = etapaActual || "";
     }
 
+    async function cargarRetosDesdeAPI() {
+        try {
+            const res = await fetch(API_URL);
+            const data = await res.json();
+            retos.length = 0;
+            data.forEach(d => retos.push(d));
+
+            // 🟢 Asegura que haya al menos una fila
+            if (retos.length === 0) {
+                agregarReto();
+            }
+
+            renderRetos();
+        } catch (e) {
+            console.error("Error al cargar desde API:", e);
+            // 🛑 Si falla la carga, asegúrate de mostrar algo igual
+            if (retos.length === 0) {
+                agregarReto();
+                renderRetos();
+            }
+        }
+    }
+
+
+    async function guardarRetosEnAPI() {
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(retos)
+            });
+        } catch (e) {
+            console.error("Error al guardar en API:", e);
+        }
+    }
+
+
+
+
     document.addEventListener("DOMContentLoaded", () => {
         lucide.createIcons();
         mostrarSeccion('retos');
         document.querySelector('[data-seccion="retos"]')?.classList.add('activo');
-        agregarReto();
+        cargarRetosDesdeAPI();
 
         // 🔁 Nuevo: evento del botón "+" con addEventListener
         document.getElementById("btnAgregarReto")?.addEventListener("click", agregarReto);
