@@ -75,64 +75,151 @@ function renderRetos() {
     const cuerpo = document.getElementById("tabla-cuerpo-retos");
     cuerpo.innerHTML = "";
 
-    retos.forEach((reto, i) => {
+    retos.forEach((reto, index) => {
         const fila = document.createElement("tr");
+        fila.dataset.id = reto.id;
 
-        fila.innerHTML = `
-            <td style="text-align: center;">${retos.length - i}</td>
-            <td><input type="text" value="${reto.nombre}" oninput="actualizarDato(${i}, 'nombre', this.value)" /></td>
-            <td>
-                <select onchange="actualizarDato(${i}, 'etapa', this.value)" onfocus="renderOpcionesEtapas(this, ${i})">
-                    <option disabled value="">⮟</option>
-                </select>
-            </td>
-            <td>
-              <div class="tiempo-input">
-                <input type="text" maxlength="2" inputmode="numeric" data-tipo="horas"
-                       value="${Math.floor(reto.tiempoEstimado / 60).toString().padStart(2, '0')}"
-                       oninput="filtrarNumeros(this)" 
-                       onblur="normalizarDosDigitos(this); actualizarDuracion(${i}, 'tiempoEstimado', this.value, 'horas')" />
-                <span class="separador">:</span>
-                <input type="text" maxlength="2" inputmode="numeric" data-tipo="minutos"
-                       value="${(reto.tiempoEstimado % 60).toString().padStart(2, '0')}"
-                       oninput="filtrarNumeros(this)" 
-                       onblur="normalizarDosDigitos(this); actualizarDuracion(${i}, 'tiempoEstimado', this.value, 'minutos')" />
-              </div>
-            </td>
-            <td>
-              <div class="tiempo-input">
-                <span class="tiempo-real-match">${formatearTiempo(reto.tiempoReal)}</span>
-                <button class="btn-sumar-tiempo" onclick="abrirModal(${i})" aria-label="Sumar tiempo real">
-                    <i data-lucide="plus"></i>
-                </button>
-              </div>
-            </td>
-            <td><input type="date" value="${reto.fechaInicio}" onchange="actualizarDato(${i}, 'fechaInicio', this.value)" /></td>
-            <td><input type="date" value="${reto.fechaFin}" onchange="actualizarDato(${i}, 'fechaFin', this.value)" /></td>
-            <td class="celda-puntos">
-              <span class="valor-puntos">${reto.puntos.toString().padStart(1, '0')}</span>
-              <span class="moneda-label">DES</span>
-            </td>
-            <td>
-              <div class="celda-insignia">
-                <i data-lucide="crown"></i>
-                <i data-lucide="trophy"></i>       
-                <i data-lucide="skull"></i>             
-              </div>
-            </td>
-            <td>
-              <button class="btn-eliminar" onclick="eliminarReto(${i})" ${retos.length === 1 ? 'disabled' : ''}>
-                  <i data-lucide="trash-2"></i>
-              </button>
-            </td>
-        `;
+        const tdNum = document.createElement("td");
+        tdNum.style.textAlign = "center";
+        tdNum.textContent = retos.length - index;
+        fila.appendChild(tdNum); // ✅ AGREGA LA CELDA A LA FILA
+
+
+        // Nombre
+        const tdNombre = document.createElement("td");
+        const inputNombre = document.createElement("input");
+        inputNombre.type = "text";
+        inputNombre.value = reto.nombre;
+        inputNombre.addEventListener("input", e => actualizarCampoPorId(reto.id, "nombre", e.target.value));
+        tdNombre.appendChild(inputNombre);
+        fila.appendChild(tdNombre);
+
+        // Etapa
+        const tdEtapa = document.createElement("td");
+        const selectEtapa = document.createElement("select");
+        selectEtapa.addEventListener("change", e => actualizarCampoPorId(reto.id, "etapa", e.target.value));
+        tdEtapa.appendChild(selectEtapa);
+        fila.appendChild(tdEtapa);
+
+        // Tiempo Estimado
+        const tdTEstimado = document.createElement("td");
+        const divTiempo = document.createElement("div");
+        divTiempo.className = "tiempo-input";
+
+        const inputHoras = document.createElement("input");
+        inputHoras.type = "text";
+        inputHoras.maxLength = 2;
+        inputHoras.inputMode = "numeric";
+        inputHoras.dataset.tipo = "horas";
+        inputHoras.value = Math.floor(reto.tiempoEstimado / 60).toString().padStart(2, '0');
+        inputHoras.oninput = () => filtrarNumeros(inputHoras);
+        inputHoras.onblur = () => {
+            normalizarDosDigitos(inputHoras);
+            actualizarDuracionPorId(reto.id, inputHoras.value, "horas");
+        };
+
+        const inputMin = document.createElement("input");
+        inputMin.type = "text";
+        inputMin.maxLength = 2;
+        inputMin.inputMode = "numeric";
+        inputMin.dataset.tipo = "minutos";
+        inputMin.value = (reto.tiempoEstimado % 60).toString().padStart(2, '0');
+        inputMin.oninput = () => filtrarNumeros(inputMin);
+        inputMin.onblur = () => {
+            normalizarDosDigitos(inputMin);
+            actualizarDuracionPorId(reto.id, inputMin.value, "minutos");
+        };
+
+        const sep = document.createElement("span");
+        sep.className = "separador";
+        sep.textContent = ":";
+
+        divTiempo.appendChild(inputHoras);
+        divTiempo.appendChild(sep);
+        divTiempo.appendChild(inputMin);
+        tdTEstimado.appendChild(divTiempo);
+        fila.appendChild(tdTEstimado);
+
+        // Tiempo Real + botón sumar
+        const tdTReal = document.createElement("td");
+        const divReal = document.createElement("div");
+        divReal.className = "tiempo-input";
+
+        const spanTiempo = document.createElement("span");
+        spanTiempo.className = "tiempo-real-match";
+        spanTiempo.textContent = formatearTiempo(reto.tiempoReal);
+
+        const btnSumar = document.createElement("button");
+        btnSumar.className = "btn-sumar-tiempo";
+        btnSumar.setAttribute("aria-label", "Sumar tiempo real");
+        btnSumar.onclick = () => abrirModalPorId(reto.id);
+
+        const iconPlus = document.createElement("i");
+        iconPlus.setAttribute("data-lucide", "plus");
+        btnSumar.appendChild(iconPlus);
+
+        divReal.appendChild(spanTiempo);
+        divReal.appendChild(btnSumar);
+        tdTReal.appendChild(divReal);
+        fila.appendChild(tdTReal);
+
+        // Fecha inicio y fin
+        ["fechaInicio", "fechaFin"].forEach(campo => {
+            const td = document.createElement("td");
+            const input = document.createElement("input");
+            input.type = "date";
+            input.value = reto[campo];
+            input.addEventListener("change", e => actualizarCampoPorId(reto.id, campo, e.target.value));
+            td.appendChild(input);
+            fila.appendChild(td);
+        });
+
+        // Puntos (solo visual)
+        const tdPuntos = document.createElement("td");
+        tdPuntos.className = "celda-puntos";
+        const spanPts = document.createElement("span");
+        spanPts.className = "valor-puntos";
+        spanPts.textContent = reto.puntos.toString().padStart(1, '0');
+        const labelMoneda = document.createElement("span");
+        labelMoneda.className = "moneda-label";
+        labelMoneda.textContent = "DES";
+        tdPuntos.appendChild(spanPts);
+        tdPuntos.appendChild(labelMoneda);
+        fila.appendChild(tdPuntos);
+
+        // Insignias
+        const tdInsignia = document.createElement("td");
+        tdInsignia.className = "celda-insignia";
+        ["crown", "trophy", "skull"].forEach(icono => {
+            const iTag = document.createElement("i");
+            iTag.setAttribute("data-lucide", icono);
+            tdInsignia.appendChild(iTag);
+        });
+        fila.appendChild(tdInsignia);
+
+        // Botón eliminar
+        const tdEliminar = document.createElement("td");
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "btn-eliminar";
+        btnEliminar.disabled = retos.length === 1;
+        btnEliminar.onclick = () => eliminarRetoPorId(reto.id);
+        const iconTrash = document.createElement("i");
+        iconTrash.setAttribute("data-lucide", "trash-2");
+        btnEliminar.appendChild(iconTrash);
+        tdEliminar.appendChild(btnEliminar);
+        fila.appendChild(tdEliminar);
 
         cuerpo.appendChild(fila);
     });
 
     lucide.createIcons();
-    document.querySelectorAll("select").forEach((select, index) => renderOpcionesEtapas(select, index));
+    document.querySelectorAll("select").forEach((select, index) => {
+        const id = select.closest("tr")?.dataset.id;
+        if (id) renderOpcionesEtapasPorId(select, id);
+    });
 }
+
+
 
 
 
@@ -165,7 +252,8 @@ function confirmarSumaTiempo() {
 }
 
 function agregarReto() {
-    retos.unshift({
+    const nuevo = {
+        id: crypto.randomUUID(), // genera ID único localmente (igual que Supabase UUID)
         nombre: "",
         etapa: "",
         tiempoEstimado: 0,
@@ -174,28 +262,11 @@ function agregarReto() {
         fechaFin: "",
         puntos: 0,
         insignia: ""
-    });
+    };
+    retos.unshift(nuevo);
     renderRetos();
 }
 
-function eliminarReto(i) {
-    if (retos.length <= 1) return;
-    retos.splice(i, 1);
-    renderRetos();
-}
-
-function actualizarDato(i, campo, valor) {
-    retos[i][campo] = valor;
-
-    if (campo === "etapa") renderRetos();
-
-    if (campo === "nombre") {
-        retos[i].etapa = "";
-        const fila = document.querySelectorAll("#tabla-cuerpo-retos tr")[i];
-        const select = fila.querySelector("select");
-        if (select) renderOpcionesEtapas(select, i);
-    }
-}
 
 function renderOpcionesEtapas(select, index) {
     const nombre = retos[index].nombre.trim();
@@ -224,6 +295,73 @@ function renderOpcionesEtapas(select, index) {
 
     select.value = etapaActual || "";
 }
+
+function actualizarCampoPorId(id, campo, valor) {
+    const reto = retos.find(r => r.id === id);
+    if (!reto) return;
+
+    reto[campo] = valor;
+
+    if (campo === "etapa") {
+        renderRetos();
+    }
+
+    if (campo === "nombre") {
+        reto.etapa = "";
+        const fila = document.querySelector(`tr[data-id="${id}"]`);
+        const select = fila?.querySelector("select");
+        if (select) {
+            renderOpcionesEtapasPorId(select, id);
+        }
+    }
+
+    if (campo === "fechaInicio" || campo === "fechaFin") {
+        const f1 = reto.fechaInicio;
+        const f2 = reto.fechaFin;
+
+        if (f1 && f2 && f2 < f1) {
+            reto.fechaFin = ""; // ❌ limpia automáticamente si está mal
+            renderRetos(); // 🔁 fuerza la actualización visual
+        }
+    }
+}
+
+
+function actualizarDuracionPorId(id, valor, tipo) {
+    const reto = retos.find(r => r.id === id);
+    if (!reto) return;
+    let actual = reto.tiempoEstimado;
+    let horas = Math.floor(actual / 60);
+    let minutos = actual % 60;
+    valor = parseInt(valor);
+    if (isNaN(valor)) return;
+    if (tipo === "horas") horas = Math.max(0, Math.min(99, valor));
+    if (tipo === "minutos") minutos = Math.max(0, Math.min(59, valor));
+    reto.tiempoEstimado = horas * 60 + minutos;
+}
+
+function eliminarRetoPorId(id) {
+    if (retos.length <= 1) return;
+    const index = retos.findIndex(r => r.id === id);
+    if (index !== -1) {
+        retos.splice(index, 1);
+        renderRetos();
+    }
+}
+
+function abrirModalPorId(id) {
+    indexActualParaSumar = retos.findIndex(r => r.id === id);
+    document.getElementById("inputHoras").value = "00";
+    document.getElementById("inputMinutos").value = "00";
+    document.getElementById("modal-tiempo").classList.remove("hidden");
+}
+
+function renderOpcionesEtapasPorId(select, id) {
+    const index = retos.findIndex(r => r.id === id);
+    if (index === -1) return;
+    renderOpcionesEtapas(select, index);
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
