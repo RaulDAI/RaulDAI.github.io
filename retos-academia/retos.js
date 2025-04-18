@@ -1,6 +1,4 @@
-﻿import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
-
-(() => {
+﻿(() => {
 
     const etapasTotales = [
         "Esculpido",
@@ -59,8 +57,6 @@
         if (tipo === "minutos") minutos = Math.max(0, Math.min(59, valor));
 
         retos[index][campo] = horas * 60 + minutos;
-
-
     }
 
     function filtrarNumeros(input) {
@@ -224,6 +220,7 @@
     }
 
 
+
     function abrirModal(index) {
         indexActualParaSumar = index;
         document.getElementById("inputHoras").value = "00";
@@ -248,15 +245,14 @@
         if (total > 0) {
             retos[indexActualParaSumar].tiempoReal += total;
             renderFila(indexActualParaSumar);
-
         }
 
 
         cerrarModal({target: {id: "modal-tiempo"}});
     }
 
-    async function agregarReto() {
-        const nuevo = {
+    function agregarReto() {
+        retos.unshift({
             nombre: "",
             etapa: "",
             tiempoEstimado: 0,
@@ -265,25 +261,21 @@
             fechaFin: "",
             puntos: 0,
             insignia: ""
-        };
-
-        retos.unshift(nuevo);
+        });
         renderRetos();
-        // Esperamos a que Supabase devuelva el id antes de permitir más ediciones
-        await guardarRetoEnSupabase(nuevo);
     }
 
     function eliminarReto(i) {
         if (retos.length <= 1) return;
         retos.splice(i, 1);
         renderRetos();
-
     }
 
     function actualizarDato(i, campo, valor) {
         retos[i][campo] = valor;
 
         if (campo === "etapa") renderFila(i);
+
 
         if (campo === "nombre") {
             retos[i].etapa = "";
@@ -295,12 +287,9 @@
         if (campo === "fechaInicio" || campo === "fechaFin") {
             validarFechas(i);
             renderFila(i);
+
         }
-
-        // ⏬ Nuevo: guarda el reto editado en Supabase
-        actualizarRetoEnSupabase(i);
     }
-
 
     function validarFechas(i) {
         const fila = document.querySelectorAll("#tabla-cuerpo-retos tr")[i];
@@ -362,17 +351,11 @@
         lucide.createIcons();
         mostrarSeccion('retos');
         document.querySelector('[data-seccion="retos"]')?.classList.add('activo');
+        agregarReto();
 
-        obtenerRetosDesdeSupabase().then(() => {
-            if (retos.length === 0) {
-                agregarReto(); // Si no hay datos remotos, agrega uno vacío
-            }
-        });
-
-
+        // 🔁 Nuevo: evento del botón "+" con addEventListener
         document.getElementById("btnAgregarReto")?.addEventListener("click", agregarReto);
     });
-
 
 // ✅ Exportar funciones necesarias al scope global
     window.toggleNav = toggleNav;
@@ -385,112 +368,6 @@
     window.cerrarModal = cerrarModal;
     window.confirmarSumaTiempo = confirmarSumaTiempo;
     window.eliminarReto = eliminarReto;
-
-    // 📝 Guardar reto en Supabase
-    async function guardarRetoEnSupabase(reto) {
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": `Bearer ${SUPABASE_KEY}`,
-                    "Content-Type": "application/json",
-                    "Prefer": "return=representation"
-                },
-                // Enviamos un único objeto, no un array
-                body: JSON.stringify(reto)
-            });
-
-            if (!response.ok) {
-                // Muestra el error para depurar
-                console.error("Error al guardar en Supabase:", response.status, await response.text());
-                return;
-            }
-
-            const data = await response.json();
-            // Supabase devuelve un array incluso al enviar un objeto
-            // Guardamos el id para futuras actualizaciones
-            reto.id = Array.isArray(data) && data[0]?.id ? data[0].id : null;
-            console.log("Guardado en Supabase:", data);
-        } catch (err) {
-            console.error("Fallo de red o JSON inválido al guardar reto:", err);
-        }
-    }
-
-// 📥 Leer todos los retos desde Supabase
-    async function obtenerRetosDesdeSupabase() {
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?select=*`, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            if (!response.ok) {
-                console.error("Error al obtener retos:", response.status, await response.text());
-                return;
-            }
-            const datos = await response.json();
-            if (!Array.isArray(datos)) return;
-            retos.length = 0;
-            datos.reverse().forEach(r => {
-                retos.push({
-                    id: r.id || null,
-                    nombre: r.nombre || "",
-                    etapa: r.etapa || "",
-                    tiempoEstimado: r.tiempo_estimado || 0,
-                    tiempoReal: r.tiempo_real || 0,
-                    fechaInicio: r.fecha_inicio || "",
-                    fechaFin: r.fecha_fin || "",
-                    puntos: r.puntos || 0,
-                    insignia: r.insignia || ""
-                });
-            });
-            renderRetos();
-        } catch (err) {
-            console.error("Fallo de red o JSON inválido al obtener retos:", err);
-        }
-    }
-
-    // 🔄 Actualizar reto en Supabase por ID
-    async function actualizarRetoEnSupabase(index) {
-        const r = retos[index];
-        const id = r.id;
-        if (!id) return;
-        const body = {
-            nombre: r.nombre,
-            etapa: r.etapa,
-            tiempo_estimado: r.tiempoEstimado,
-            tiempo_real: r.tiempoReal,
-            fecha_inicio: r.fechaInicio,
-            fecha_fin: r.fechaFin,
-            puntos: r.puntos,
-            insignia: r.insignia
-        };
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?id=eq.${id}`, {
-                method: "PATCH",
-                headers: {
-                    "Accept": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": `Bearer ${SUPABASE_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            });
-            if (!response.ok) {
-                console.error("Error al actualizar reto:", response.status, await response.text());
-                return;
-            }
-            const data = await response.json();
-            console.log("Actualizado en Supabase:", data);
-        } catch (err) {
-            console.error("Fallo de red o JSON inválido al actualizar reto:", err);
-        }
-    }
 
 
 })();
