@@ -258,7 +258,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         cerrarModal({target: {id: "modal-tiempo"}});
     }
 
-    function agregarReto() {
+    async function agregarReto() {
         const nuevo = {
             nombre: "",
             etapa: "",
@@ -272,7 +272,8 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
         retos.unshift(nuevo);
         renderRetos();
-        guardarRetoEnSupabase(nuevo); // 🟢 lo envía a Supabase
+        // Esperamos a que Supabase devuelva el id antes de permitir más ediciones
+        await guardarRetoEnSupabase(nuevo);
     }
 
     function eliminarReto(i) {
@@ -390,57 +391,71 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
     // 📝 Guardar reto en Supabase
     async function guardarRetoEnSupabase(reto) {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos`, {
-            method: "POST",
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`,
-                "Content-Type": "application/json",
-                "Prefer": "return=representation"
-            },
-            body: JSON.stringify([reto])
-        });
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos`, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                },
+                // Enviamos un único objeto, no un array
+                body: JSON.stringify(reto)
+            });
 
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0 && data[0].id) {
-            reto.id = data[0].id; // ⬅️ importante para poder actualizar después
+            if (!response.ok) {
+                // Muestra el error para depurar
+                console.error("Error al guardar en Supabase:", response.status, await response.text());
+                return;
+            }
+
+            const data = await response.json();
+            // Supabase devuelve un array incluso al enviar un objeto
+            // Guardamos el id para futuras actualizaciones
+            reto.id = Array.isArray(data) && data[0]?.id ? data[0].id : null;
+            console.log("Guardado en Supabase:", data);
+        } catch (err) {
+            console.error("Fallo de red o JSON inválido al guardar reto:", err);
         }
-
-        console.log("Guardado en Supabase:", data);
     }
 
 // 📥 Leer todos los retos desde Supabase
     async function obtenerRetosDesdeSupabase() {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?select=*`, {
-            method: "GET",
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`
-            }
-        });
-
-        const datos = await response.json();
-        console.log("Recibido desde Supabase:", datos); // ✅ Consola visible para ver qué llega
-
-        if (!Array.isArray(datos)) return;
-
-        // Limpiamos y llenamos la lista local
-        retos.length = 0;
-        datos.reverse().forEach(r => {
-            retos.push({
-                id: r.id || null, // ⬅️ MUY importante para actualizaciones
-                nombre: r.nombre || "",
-                etapa: r.etapa || "",
-                tiempoEstimado: r.tiempo_estimado || 0,
-                tiempoReal: r.tiempo_real || 0,
-                fechaInicio: r.fecha_inicio || "",
-                fechaFin: r.fecha_fin || "",
-                puntos: r.puntos || 0,
-                insignia: r.insignia || ""
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?select=*`, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`
+                }
             });
-        });
-
-        renderRetos();
+            if (!response.ok) {
+                console.error("Error al obtener retos:", response.status, await response.text());
+                return;
+            }
+            const datos = await response.json();
+            if (!Array.isArray(datos)) return;
+            retos.length = 0;
+            datos.reverse().forEach(r => {
+                retos.push({
+                    id: r.id || null,
+                    nombre: r.nombre || "",
+                    etapa: r.etapa || "",
+                    tiempoEstimado: r.tiempo_estimado || 0,
+                    tiempoReal: r.tiempo_real || 0,
+                    fechaInicio: r.fecha_inicio || "",
+                    fechaFin: r.fecha_fin || "",
+                    puntos: r.puntos || 0,
+                    insignia: r.insignia || ""
+                });
+            });
+            renderRetos();
+        } catch (err) {
+            console.error("Fallo de red o JSON inválido al obtener retos:", err);
+        }
     }
 
     // 🔄 Actualizar reto en Supabase por ID
@@ -448,7 +463,6 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         const r = retos[index];
         const id = r.id;
         if (!id) return;
-
         const body = {
             nombre: r.nombre,
             etapa: r.etapa,
@@ -459,19 +473,26 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             puntos: r.puntos,
             insignia: r.insignia
         };
-
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?id=eq.${id}`, {
-            method: "PATCH",
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        });
-
-        const data = await response.json();
-        console.log("Actualizado en Supabase:", data);
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?id=eq.${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Accept": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            if (!response.ok) {
+                console.error("Error al actualizar reto:", response.status, await response.text());
+                return;
+            }
+            const data = await response.json();
+            console.log("Actualizado en Supabase:", data);
+        } catch (err) {
+            console.error("Fallo de red o JSON inválido al actualizar reto:", err);
+        }
     }
 
 
