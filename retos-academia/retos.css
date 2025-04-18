@@ -1,4 +1,30 @@
-﻿:root {
+﻿
+:root {
+    --sidebar-width: 180px;
+    --font-main: 'JetBrains Mono', monospace;
+
+    /* 🎨 Variables de color coherentes */
+    --color-bg: #111;
+    --color-surface: #1a1a1a;
+    --color-surface-alt: #222;
+    --color-surface-hover: #2b2b2b;
+    --color-surface-active: #3b3b3b;
+    --color-border: #333;
+    --color-border-strong: #444;
+    --color-text: #f9fafb;
+    --color-text-muted: #ccc;
+    --color-text-disabled: #aaa;
+    --color-focus: #16a34a;
+    --color-focus-hover: rgba(22, 163, 74, 0.2);
+    --color-focus-strong: rgba(22, 163, 74, 0.5);
+    --color-error: #f87171;
+    --color-warning: #facc15;
+    --color-overlay: rgba(0, 0, 0, 0.7);
+    --color-box-shadow: rgba(255, 255, 255, 0.07);
+}
+
+
+:root {
     --sidebar-width: 180px;
     --font-main: 'JetBrains Mono', monospace;
 }
@@ -8,8 +34,8 @@
 ================================================== */
 body {
     font-family: 'JetBrains Mono', monospace;
-    background-color: #111;
-    color: #f9fafb;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }
@@ -35,7 +61,6 @@ select:focus {
 }
 
 
-
 /* ================================================
    📦 CONTENEDOR PRINCIPAL
 ================================================== */
@@ -59,8 +84,8 @@ select:focus {
     z-index: 10;
     top: 0;
     left: 0;
-    background-color: #1a1a1a;
-    border-right: 1px solid #2b2b2b;
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-surface-hover);
     overflow: hidden;
     transition: width 0.2s ease-out;
     padding-top: 75px;
@@ -81,13 +106,13 @@ select:focus {
 .sidenav a {
     text-decoration: none;
     font-size: 18px;
-    color: #f9fafb;
+    color: var(--color-text);
     padding: 10px 16px 10px 20px;
     display: flex;
     align-items: center;
     gap: 8px;
     border-radius: 6px;
-    white-space: nowrap;
+var(--color-text) -space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color 0.2s ease,
@@ -97,15 +122,15 @@ select:focus {
 }
 
 .sidenav a.activo {
-    background-color: #3b3b3b;
+    background-color: var(--color-surface-active);
     padding-left: 24px;
-    color: #fff;
+    color: var(--color-text);
 }
 
 .sidenav a:hover {
-    background-color: #2b2b2b;
+    background-color: var(--color-surface-hover);
     padding-left: 24px;
-    color: #fff;
+    color: var(--color-text);
 }
 
 /* ================================================
@@ -114,8 +139,8 @@ select:focus {
 .openbtn {
     font-size: 24px;
     cursor: pointer;
-    background-color: #222;
-    color: white;
+    background-color: var(--color-surface-alt);
+    color: var(--color-text);
     padding: 10px 15px;
     border: none;
     position: fixed;
@@ -127,7 +152,7 @@ select:focus {
 }
 
 .openbtn:hover {
-    background-color: #444;
+    background-color: var(--color-border-strong);
 }
 
 /* ================================================
@@ -157,7 +182,6 @@ select:focus {
 }
 
 
-
 /* ================================================
    📋 TABLA DE RETOS
 ================================================== */
@@ -172,21 +196,23 @@ select:focus {
 
 
 .tabla-retos table {
-    table-layout: fixed;
-    border-collapse: collapse;
+    table-layout: fixed; /* Esto ya lo tienes */
+    width: 1186px; /* o la suma total esperada de tus columnas */
+    min-width: 1186px; /* fuerza el tamaño mínimo real */
 }
+
 
 
 .tabla-retos th,
 .tabla-retos td {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+var(--color-text) -space: nowrap;
     padding: 10px 6px;
 }
 
 .tabla-retos th {
-    white-space: nowrap;
+var(--color-text) -space: nowrap;
     text-align: left;
     padding-left: 11px;
 }
@@ -217,14 +243,15 @@ select:focus {
 }
 
 .tabla-retos tbody tr:hover {
-    background-color: #1e1e1e;
+    background-color: transparent; /* o elimínalo si no deseas efecto alguno */
 }
+
 
 .tabla-retos input {
     width: 100%;
-    background-color: #222;
-    border: 1px solid #333;
-    color: #fff;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
     padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
@@ -235,14 +262,14 @@ select:focus {
     width: auto;
     min-width: 100%;
     max-width: 100%;
-    background-color: #222;
-    border: 1px solid #333;
-    color: #fff;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
     padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
     appearance: none;
-    white-space: nowrap;
+var(--color-text) -space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     box-sizing: border-box;
@@ -250,13 +277,13 @@ select:focus {
 
 
 .tabla-retos select:focus {
-    outline: 2px solid #444;
+    outline: 2px solid var(--color-border-strong);
 }
 
 .tabla-retos input[placeholder*="Insignia"] {
     background-color: #1f1f1f;
     font-style: italic;
-    color: #ccc;
+    color: var(--color-text-muted);
 }
 
 .tabla-retos th i {
@@ -272,13 +299,13 @@ select:focus {
     background: none;
     border: none;
     cursor: pointer;
-    color: #aaa;
+    color: var(--color-text-disabled);
     transition: color 0.2s ease;
     padding: 4px;
 }
 
 .tabla-retos .btn-eliminar:hover {
-    color: #f87171;
+    color: var(--color-error);
 }
 
 .tabla-retos .btn-eliminar:disabled {
@@ -312,10 +339,9 @@ select:focus {
 }
 
 
-
 .btn-mas {
-    background-color: #2b2b2b;
-    color: #f9fafb;
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
     border: none;
     padding: 8px 8px;
     font-size: 18px;
@@ -329,7 +355,7 @@ select:focus {
 }
 
 .btn-mas:hover {
-    background-color: #444;
+    background-color: var(--color-border-strong);
 }
 
 .titulo-con-boton {
@@ -348,10 +374,10 @@ select:focus {
     width: 100%;
     padding: 10px 16px 10px 20px;
     font-size: 18px;
-    color: #f9fafb;
+    color: var(--color-text);
     border-radius: 6px;
     gap: 8px;
-    white-space: nowrap;
+var(--color-text) -space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
@@ -363,81 +389,69 @@ select:focus {
 }
 
 .nav-btn:hover {
-    background-color: #2b2b2b;
-    color: #fff;
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
     padding-left: 24px;
 }
 
 .nav-btn.activo {
-    background-color: #3b3b3b;
-    color: #fff;
+    background-color: var(--color-surface-active);
+    color: var(--color-text);
     border-radius: 8px;
 }
 
 /* ================================================
    📐 ANCHOS FIJOS POR COLUMNA
 ================================================== */
-/* Anchos fijos por columna */
-.tabla-retos th:nth-child(1),
-.tabla-retos td:nth-child(1) {
+/* 🧱 Anchos semánticos por clase */
+.col-numero {
+    width: 15px;
     text-align: center;
-    width: 50px;
 }
 
-.tabla-retos th:nth-child(2),
-.tabla-retos td:nth-child(2) {
+.col-nombre {
     width: 200px;
 }
 
-.tabla-retos th:nth-child(3),
-.tabla-retos td:nth-child(3) {
+.col-etapa {
     width: 125px;
 }
 
-
-.tabla-retos td:nth-child(4) {
-    text-align: center;
-    padding-left: 20px;
-}
-
-.tabla-retos th:nth-child(4),
-.tabla-retos td:nth-child(4) {
-    width: 100px;
-}
-
-.tabla-retos th:nth-child(5),
-.tabla-retos td:nth-child(5) {
-    text-align: center;
-    
+.col-tiempo-estimado {
     width: 130px;
-}
-
-.tabla-retos th:nth-child(6),
-.tabla-retos td:nth-child(6) {
-    width: 180px;
-}
-
-.tabla-retos th:nth-child(7),
-.tabla-retos td:nth-child(7) {
-    width: 180px;
-}
-
-.tabla-retos th:nth-child(8),
-.tabla-retos td:nth-child(8) {
-
-    width: 100px;
-}
-
-.tabla-retos th:nth-child(9),
-.tabla-retos td:nth-child(9) {
-
-    width: 100px;
-}
-
-.tabla-retos th:nth-child(10),
-.tabla-retos td:nth-child(10) {
     text-align: center;
-    width: 32px;
+}
+
+.col-tiempo-estimado .tiempo-input {
+    justify-content: center;
+    padding-left: 17px;
+}
+
+.col-tiempo-real {
+    width: 120px;
+    text-align: center;
+}
+
+.col-fecha-inicial {
+    width: 180px;
+}
+
+.col-fecha-final {
+    width: 180px;
+}
+
+.col-puntos {
+    width: 92px;
+    text-align: center;
+}
+
+.col-insignia {
+    width: 111px;
+}
+
+.col-eliminar {
+    width: 33px;
+    text-align: center;
 }
 
 /* ================================================
@@ -454,15 +468,15 @@ select:focus {
     display: inline-block;
     width: 8px;
     text-align: center;
-    color: #999;
+    color: var(--color-text-muted);
 }
 
 
 .tiempo-input input[type="text"] {
     width: 32px;
-    background-color: #222;
-    border: 1px solid #444;
-    color: #fff;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text);
     text-align: center;
     padding: 4px;
     border-radius: 4px;
@@ -480,8 +494,8 @@ select:focus {
 }
 
 .tiempo-real-match {
-    background-color: #222;
-    border: 1px solid #444;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border-strong);
     color: #48cc79;
     padding: 4px 6px;
     border-radius: 4px;
@@ -496,11 +510,10 @@ select:focus {
 }
 
 
-
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--color-overlay);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -508,12 +521,12 @@ select:focus {
 }
 
 .modal-contenido {
-    background-color: #1a1a1a;
-    border: 1px solid #555; /* antes era #333, ahora más visible */
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-strong); /* antes era var(--color-border), ahora más visible */
     border-radius: 10px;
     padding: 24px;
     width: 280px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.07); /* mejora contraste visual */
+    box-shadow: 0 0 20px var(--color-box-shadow); /* mejora contraste visual */
     text-align: center;
 }
 
@@ -521,8 +534,8 @@ select:focus {
 .modal-contenido .tiempo-input input[type="text"] {
     width: 44px;
     height: 40px;
-    background-color: #222;
-    border: 1px solid #444;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border-strong);
     color: #48cc79;
     text-align: center;
     padding: 8px;
@@ -536,10 +549,9 @@ select:focus {
 
 .modal-contenido .tiempo-input input[type="text"]:focus {
     outline: none;
-    border: 1px solid #16a34a; /* cambia este verde por cualquier color que quieras */
-    box-shadow: 0 0 0 1px #16a34a;
+    border: 1px solid var(--color-focus); /* cambia este verde por cualquier color que quieras */
+    box-shadow: 0 0 0 1px var(--color-focus);
 }
-
 
 
 .modal-titulo {
@@ -569,19 +581,19 @@ select:focus {
 
 
 .btn-confirmar {
-    background-color: #16a34a;
-    color: white;
+    background-color: var(--color-focus);
+    color: var(--color-text);
 }
 
 .btn-cancelar {
-    background-color: #444;
-    color: #eee;
+    background-color: var(--color-border-strong);
+    color: var(--color-text-muted);
 }
 
 .btn-sumar-tiempo {
     background: none;
-    border: 2px solid #16a34a;
-    color: #16a34a;
+    border: 2px solid var(--color-focus);
+    color: var(--color-focus);
     margin-left: 6px;
     border-radius: 6px;
     cursor: pointer;
@@ -594,27 +606,20 @@ select:focus {
 }
 
 
-
 .btn-sumar-tiempo:hover {
-    background-color: rgba(22, 163, 74, 0.2);
-    color: black;
-}
-
-
-.btn-sumar-tiempo:hover {
-    background-color: rgba(22, 163, 74, 0.50);
-    color: black;
+    background-color: var(--color-focus-strong); /* era rgba(22,163,74,0.5) */
+    color: var(--color-bg); /* reemplazo de black */
 }
 
 
 .valor-puntos {
     display: inline-block;
-    width: 48px;         /* similar al input original */
+    width: 48px; /* similar al input original */
     height: 28px;
     line-height: 28px;
-    background-color: #222;
-    border: 1px solid #333;
-    color: #fff;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
     border-radius: 4px;
     text-align: center;
     font-family: inherit;
@@ -632,20 +637,17 @@ select:focus {
 .valor-puntos {
     all: unset;
     color: #3d3d3d;
-    /*color: #facc15;*/
+    /*color: var(--color-warning);*/
     font-weight: bold;
     margin-right: 4px;
 }
 
 
-
 .moneda-label {
-    color: #a1a1a1;      /* DES en rojo suave */
+    color: #a1a1a1; /* DES en rojo suave */
     font-weight: bold;
     letter-spacing: 0.5px;
 }
-
-
 
 
 .celda-insignia {
@@ -658,7 +660,6 @@ select:focus {
 .celda-insignia svg {
     stroke: currentColor;
 }
-
 
 
 /* ================================================
