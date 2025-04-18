@@ -1,7 +1,9 @@
-﻿(() => {
+﻿// 🗝️ Conexión Supabase
+const SUPABASE_URL = "https://pntcfiysvfzfnuisitlf.supabase.co"; // reemplaza con tu URL completa
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBudGNmaXlzdmZ6Zm51aXNpdGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5NTU5NDYsImV4cCI6MjA2MDUzMTk0Nn0.am9KFi0n6KVQdVenej2WVqnBuYZi1vgwDs-Q3voGnss"; // reemplaza con tu anon key completa
 
-    const API_URL = "https://script.google.com/macros/s/AKfycbwv5pjwNClXuEDWn3q4s-f43Xapc_Ng_YfRQUDy--2gQirCt9Smh0s85R1XdHwOaZ8-/exec";
 
+(() => {
 
     const etapasTotales = [
         "Esculpido",
@@ -60,7 +62,7 @@
         if (tipo === "minutos") minutos = Math.max(0, Math.min(59, valor));
 
         retos[index][campo] = horas * 60 + minutos;
-        guardarRetosEnAPI();
+
 
     }
 
@@ -225,7 +227,6 @@
     }
 
 
-
     function abrirModal(index) {
         indexActualParaSumar = index;
         document.getElementById("inputHoras").value = "00";
@@ -250,7 +251,7 @@
         if (total > 0) {
             retos[indexActualParaSumar].tiempoReal += total;
             renderFila(indexActualParaSumar);
-            guardarRetosEnAPI();
+
         }
 
 
@@ -258,7 +259,7 @@
     }
 
     function agregarReto() {
-        retos.unshift({
+        const nuevo = {
             nombre: "",
             etapa: "",
             tiempoEstimado: 0,
@@ -267,16 +268,18 @@
             fechaFin: "",
             puntos: 0,
             insignia: ""
-        });
+        };
+
+        retos.unshift(nuevo);
         renderRetos();
-        guardarRetosEnAPI();
+        guardarRetoEnSupabase(nuevo); // 🟢 lo envía a Supabase
     }
 
     function eliminarReto(i) {
         if (retos.length <= 1) return;
         retos.splice(i, 1);
         renderRetos();
-        guardarRetosEnAPI();
+
     }
 
     function actualizarDato(i, campo, valor) {
@@ -296,7 +299,6 @@
             renderFila(i);
         }
 
-        guardarRetosEnAPI(); // ← lo mueves aquí abajo, así guarda para cualquier campo
     }
 
 
@@ -356,56 +358,21 @@
         select.value = etapaActual || "";
     }
 
-    async function cargarRetosDesdeAPI() {
-        try {
-            const res = await fetch(API_URL);
-            const data = await res.json();
-            retos.length = 0;
-            data.forEach(d => retos.push(d));
-
-            // 🟢 Asegura que haya al menos una fila
-            if (retos.length === 0) {
-                agregarReto();
-            }
-
-            renderRetos();
-        } catch (e) {
-            console.error("Error al cargar desde API:", e);
-            // 🛑 Si falla la carga, asegúrate de mostrar algo igual
-            if (retos.length === 0) {
-                agregarReto();
-                renderRetos();
-            }
-        }
-    }
-
-
-    async function guardarRetosEnAPI() {
-        try {
-            await fetch(API_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(retos)
-            });
-        } catch (e) {
-            console.error("Error al guardar en API:", e);
-        }
-    }
-
-
-
-
     document.addEventListener("DOMContentLoaded", () => {
         lucide.createIcons();
         mostrarSeccion('retos');
         document.querySelector('[data-seccion="retos"]')?.classList.add('activo');
-        cargarRetosDesdeAPI();
 
-        // 🔁 Nuevo: evento del botón "+" con addEventListener
+        obtenerRetosDesdeSupabase().then(() => {
+            if (retos.length === 0) {
+                agregarReto(); // Si no hay datos remotos, agrega uno vacío
+            }
+        });
+
+
         document.getElementById("btnAgregarReto")?.addEventListener("click", agregarReto);
     });
+
 
 // ✅ Exportar funciones necesarias al scope global
     window.toggleNav = toggleNav;
@@ -417,7 +384,56 @@
     window.abrirModal = abrirModal;
     window.cerrarModal = cerrarModal;
     window.confirmarSumaTiempo = confirmarSumaTiempo;
-    window.eliminarReto = eliminarReto; 
+    window.eliminarReto = eliminarReto;
+
+    // 📝 Guardar reto en Supabase
+    async function guardarRetoEnSupabase(reto) {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos`, {
+            method: "POST",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`,
+                "Content-Type": "application/json",
+                "Prefer": "return=representation"
+            },
+            body: JSON.stringify([reto])
+        });
+
+        const data = await response.json();
+        console.log("Guardado en Supabase:", data);
+    }
+
+    // 📥 Leer todos los retos desde Supabase
+    async function obtenerRetosDesdeSupabase() {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/retos?select=*`, {
+            method: "GET",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
+            }
+        });
+
+        const datos = await response.json();
+        if (!Array.isArray(datos)) return;
+
+        // Limpiamos y llenamos la lista local
+        retos.length = 0;
+        datos.reverse().forEach(r => {
+            retos.push({
+                nombre: r.nombre || "",
+                etapa: r.etapa || "",
+                tiempoEstimado: r.tiempo_estimado || 0,
+                tiempoReal: r.tiempo_real || 0,
+                fechaInicio: r.fecha_inicio || "",
+                fechaFin: r.fecha_fin || "",
+                puntos: r.puntos || 0,
+                insignia: r.insignia || ""
+            });
+        });
+
+        renderRetos();
+    }
+
 
 
 })();
