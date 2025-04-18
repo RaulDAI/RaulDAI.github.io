@@ -427,6 +427,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         retos.length = 0;
         datos.reverse().forEach(r => {
             retos.push({
+                id: r.id || null, // ⬅️ ESTA línea es esencial
                 nombre: r.nombre || "",
                 etapa: r.etapa || "",
                 tiempoEstimado: r.tiempo_estimado || 0,
@@ -436,6 +437,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
                 puntos: r.puntos || 0,
                 insignia: r.insignia || ""
             });
+
         });
 
         renderRetos();
