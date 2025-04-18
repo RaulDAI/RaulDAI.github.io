@@ -1,30 +1,4 @@
-﻿
-:root {
-    --sidebar-width: 180px;
-    --font-main: 'JetBrains Mono', monospace;
-
-    /* 🎨 Variables de color coherentes */
-    --color-bg: #111;
-    --color-surface: #1a1a1a;
-    --color-surface-alt: #222;
-    --color-surface-hover: #2b2b2b;
-    --color-surface-active: #3b3b3b;
-    --color-border: #333;
-    --color-border-strong: #444;
-    --color-text: #f9fafb;
-    --color-text-muted: #ccc;
-    --color-text-disabled: #aaa;
-    --color-focus: #16a34a;
-    --color-focus-hover: rgba(22, 163, 74, 0.2);
-    --color-focus-strong: rgba(22, 163, 74, 0.5);
-    --color-error: #f87171;
-    --color-warning: #facc15;
-    --color-overlay: rgba(0, 0, 0, 0.7);
-    --color-box-shadow: rgba(255, 255, 255, 0.07);
-}
-
-
-:root {
+﻿:root {
     --sidebar-width: 180px;
     --font-main: 'JetBrains Mono', monospace;
 }
@@ -34,8 +8,8 @@
 ================================================== */
 body {
     font-family: 'JetBrains Mono', monospace;
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: #111;
+    color: #f9fafb;
     margin: 0;
     padding: 0;
 }
@@ -61,6 +35,7 @@ select:focus {
 }
 
 
+
 /* ================================================
    📦 CONTENEDOR PRINCIPAL
 ================================================== */
@@ -84,8 +59,8 @@ select:focus {
     z-index: 10;
     top: 0;
     left: 0;
-    background-color: var(--color-surface);
-    border-right: 1px solid var(--color-surface-hover);
+    background-color: #1a1a1a;
+    border-right: 1px solid #2b2b2b;
     overflow: hidden;
     transition: width 0.2s ease-out;
     padding-top: 75px;
@@ -106,13 +81,13 @@ select:focus {
 .sidenav a {
     text-decoration: none;
     font-size: 18px;
-    color: var(--color-text);
+    color: #f9fafb;
     padding: 10px 16px 10px 20px;
     display: flex;
     align-items: center;
     gap: 8px;
     border-radius: 6px;
-var(--color-text) -space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color 0.2s ease,
@@ -122,15 +97,15 @@ var(--color-text) -space: nowrap;
 }
 
 .sidenav a.activo {
-    background-color: var(--color-surface-active);
+    background-color: #3b3b3b;
     padding-left: 24px;
-    color: var(--color-text);
+    color: #fff;
 }
 
 .sidenav a:hover {
-    background-color: var(--color-surface-hover);
+    background-color: #2b2b2b;
     padding-left: 24px;
-    color: var(--color-text);
+    color: #fff;
 }
 
 /* ================================================
@@ -139,8 +114,8 @@ var(--color-text) -space: nowrap;
 .openbtn {
     font-size: 24px;
     cursor: pointer;
-    background-color: var(--color-surface-alt);
-    color: var(--color-text);
+    background-color: #222;
+    color: white;
     padding: 10px 15px;
     border: none;
     position: fixed;
@@ -152,7 +127,7 @@ var(--color-text) -space: nowrap;
 }
 
 .openbtn:hover {
-    background-color: var(--color-border-strong);
+    background-color: #444;
 }
 
 /* ================================================
@@ -182,6 +157,7 @@ var(--color-text) -space: nowrap;
 }
 
 
+
 /* ================================================
    📋 TABLA DE RETOS
 ================================================== */
@@ -196,23 +172,21 @@ var(--color-text) -space: nowrap;
 
 
 .tabla-retos table {
-    table-layout: fixed; /* Esto ya lo tienes */
-    width: 1186px; /* o la suma total esperada de tus columnas */
-    min-width: 1186px; /* fuerza el tamaño mínimo real */
+    table-layout: fixed;
+    border-collapse: collapse;
 }
-
 
 
 .tabla-retos th,
 .tabla-retos td {
     overflow: hidden;
     text-overflow: ellipsis;
-var(--color-text) -space: nowrap;
+    white-space: nowrap;
     padding: 10px 6px;
 }
 
 .tabla-retos th {
-var(--color-text) -space: nowrap;
+    white-space: nowrap;
     text-align: left;
     padding-left: 11px;
 }
@@ -243,15 +217,14 @@ var(--color-text) -space: nowrap;
 }
 
 .tabla-retos tbody tr:hover {
-    background-color: transparent; /* o elimínalo si no deseas efecto alguno */
+    background-color: #1e1e1e;
 }
-
 
 .tabla-retos input {
     width: 100%;
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
     padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
@@ -262,14 +235,14 @@ var(--color-text) -space: nowrap;
     width: auto;
     min-width: 100%;
     max-width: 100%;
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
     padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
     appearance: none;
-var(--color-text) -space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     box-sizing: border-box;
@@ -277,13 +250,13 @@ var(--color-text) -space: nowrap;
 
 
 .tabla-retos select:focus {
-    outline: 2px solid var(--color-border-strong);
+    outline: 2px solid #444;
 }
 
 .tabla-retos input[placeholder*="Insignia"] {
     background-color: #1f1f1f;
     font-style: italic;
-    color: var(--color-text-muted);
+    color: #ccc;
 }
 
 .tabla-retos th i {
@@ -299,13 +272,13 @@ var(--color-text) -space: nowrap;
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-text-disabled);
+    color: #aaa;
     transition: color 0.2s ease;
     padding: 4px;
 }
 
 .tabla-retos .btn-eliminar:hover {
-    color: var(--color-error);
+    color: #f87171;
 }
 
 .tabla-retos .btn-eliminar:disabled {
@@ -339,9 +312,10 @@ var(--color-text) -space: nowrap;
 }
 
 
+
 .btn-mas {
-    background-color: var(--color-surface-hover);
-    color: var(--color-text);
+    background-color: #2b2b2b;
+    color: #f9fafb;
     border: none;
     padding: 8px 8px;
     font-size: 18px;
@@ -355,7 +329,7 @@ var(--color-text) -space: nowrap;
 }
 
 .btn-mas:hover {
-    background-color: var(--color-border-strong);
+    background-color: #444;
 }
 
 .titulo-con-boton {
@@ -374,10 +348,10 @@ var(--color-text) -space: nowrap;
     width: 100%;
     padding: 10px 16px 10px 20px;
     font-size: 18px;
-    color: var(--color-text);
+    color: #f9fafb;
     border-radius: 6px;
     gap: 8px;
-var(--color-text) -space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
@@ -389,69 +363,81 @@ var(--color-text) -space: nowrap;
 }
 
 .nav-btn:hover {
-    background-color: var(--color-surface-hover);
-    color: var(--color-text);
+    background-color: #2b2b2b;
+    color: #fff;
     padding-left: 24px;
 }
 
 .nav-btn.activo {
-    background-color: var(--color-surface-active);
-    color: var(--color-text);
+    background-color: #3b3b3b;
+    color: #fff;
     border-radius: 8px;
 }
 
 /* ================================================
    📐 ANCHOS FIJOS POR COLUMNA
 ================================================== */
-/* 🧱 Anchos semánticos por clase */
-.col-numero {
-    width: 15px;
+/* Anchos fijos por columna */
+.tabla-retos th:nth-child(1),
+.tabla-retos td:nth-child(1) {
     text-align: center;
+    width: 50px;
 }
 
-.col-nombre {
+.tabla-retos th:nth-child(2),
+.tabla-retos td:nth-child(2) {
     width: 200px;
 }
 
-.col-etapa {
+.tabla-retos th:nth-child(3),
+.tabla-retos td:nth-child(3) {
     width: 125px;
 }
 
-.col-tiempo-estimado {
+
+.tabla-retos td:nth-child(4) {
+    text-align: center;
+    padding-left: 20px;
+}
+
+.tabla-retos th:nth-child(4),
+.tabla-retos td:nth-child(4) {
+    width: 100px;
+}
+
+.tabla-retos th:nth-child(5),
+.tabla-retos td:nth-child(5) {
+    text-align: center;
+
     width: 130px;
-    text-align: center;
 }
 
-.col-tiempo-estimado .tiempo-input {
-    justify-content: center;
-    padding-left: 17px;
-}
-
-.col-tiempo-real {
-    width: 120px;
-    text-align: center;
-}
-
-.col-fecha-inicial {
+.tabla-retos th:nth-child(6),
+.tabla-retos td:nth-child(6) {
     width: 180px;
 }
 
-.col-fecha-final {
+.tabla-retos th:nth-child(7),
+.tabla-retos td:nth-child(7) {
     width: 180px;
 }
 
-.col-puntos {
-    width: 92px;
-    text-align: center;
+.tabla-retos th:nth-child(8),
+.tabla-retos td:nth-child(8) {
+
+    width: 100px;
 }
 
-.col-insignia {
-    width: 111px;
+.tabla-retos th:nth-child(9),
+.tabla-retos td:nth-child(9) {
+
+    width: 100px;
 }
 
-.col-eliminar {
-    width: 33px;
+.tabla-retos th:nth-child(10),
+.tabla-retos td:nth-child(10) {
     text-align: center;
+    width: 32px;
 }
 
 /* ================================================
@@ -468,15 +454,15 @@ var(--color-text) -space: nowrap;
     display: inline-block;
     width: 8px;
     text-align: center;
-    color: var(--color-text-muted);
+    color: #999;
 }
 
 
 .tiempo-input input[type="text"] {
     width: 32px;
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border-strong);
-    color: var(--color-text);
+    background-color: #222;
+    border: 1px solid #444;
+    color: #fff;
     text-align: center;
     padding: 4px;
     border-radius: 4px;
@@ -494,8 +480,8 @@ var(--color-text) -space: nowrap;
 }
 
 .tiempo-real-match {
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border-strong);
+    background-color: #222;
+    border: 1px solid #444;
     color: #48cc79;
     padding: 4px 6px;
     border-radius: 4px;
@@ -510,10 +496,11 @@ var(--color-text) -space: nowrap;
 }
 
 
+
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: var(--color-overlay);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -521,12 +508,12 @@ var(--color-text) -space: nowrap;
 }
 
 .modal-contenido {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border-strong); /* antes era var(--color-border), ahora más visible */
+    background-color: #1a1a1a;
+    border: 1px solid #555; /* antes era #333, ahora más visible */
     border-radius: 10px;
     padding: 24px;
     width: 280px;
-    box-shadow: 0 0 20px var(--color-box-shadow); /* mejora contraste visual */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.07); /* mejora contraste visual */
     text-align: center;
 }
 
@@ -534,8 +521,8 @@ var(--color-text) -space: nowrap;
 .modal-contenido .tiempo-input input[type="text"] {
     width: 44px;
     height: 40px;
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border-strong);
+    background-color: #222;
+    border: 1px solid #444;
     color: #48cc79;
     text-align: center;
     padding: 8px;
@@ -549,9 +536,10 @@ var(--color-text) -space: nowrap;
 
 .modal-contenido .tiempo-input input[type="text"]:focus {
     outline: none;
-    border: 1px solid var(--color-focus); /* cambia este verde por cualquier color que quieras */
-    box-shadow: 0 0 0 1px var(--color-focus);
+    border: 1px solid #16a34a; /* cambia este verde por cualquier color que quieras */
+    box-shadow: 0 0 0 1px #16a34a;
 }
+
 
 
 .modal-titulo {
@@ -581,19 +569,19 @@ var(--color-text) -space: nowrap;
 
 
 .btn-confirmar {
-    background-color: var(--color-focus);
-    color: var(--color-text);
+    background-color: #16a34a;
+    color: white;
 }
 
 .btn-cancelar {
-    background-color: var(--color-border-strong);
-    color: var(--color-text-muted);
+    background-color: #444;
+    color: #eee;
 }
 
 .btn-sumar-tiempo {
     background: none;
-    border: 2px solid var(--color-focus);
-    color: var(--color-focus);
+    border: 2px solid #16a34a;
+    color: #16a34a;
     margin-left: 6px;
     border-radius: 6px;
     cursor: pointer;
@@ -606,20 +594,27 @@ var(--color-text) -space: nowrap;
 }
 
 
+
 .btn-sumar-tiempo:hover {
-    background-color: var(--color-focus-strong); /* era rgba(22,163,74,0.5) */
-    color: var(--color-bg); /* reemplazo de black */
+    background-color: rgba(22, 163, 74, 0.2);
+    color: black;
+}
+
+
+.btn-sumar-tiempo:hover {
+    background-color: rgba(22, 163, 74, 0.50);
+    color: black;
 }
 
 
 .valor-puntos {
     display: inline-block;
-    width: 48px; /* similar al input original */
+    width: 48px;         /* similar al input original */
     height: 28px;
     line-height: 28px;
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
     border-radius: 4px;
     text-align: center;
     font-family: inherit;
@@ -637,17 +632,20 @@ var(--color-text) -space: nowrap;
 .valor-puntos {
     all: unset;
     color: #3d3d3d;
-    /*color: var(--color-warning);*/
+    /*color: #facc15;*/
     font-weight: bold;
     margin-right: 4px;
 }
 
 
+
 .moneda-label {
-    color: #a1a1a1; /* DES en rojo suave */
+    color: #a1a1a1;      /* DES en rojo suave */
     font-weight: bold;
     letter-spacing: 0.5px;
 }
+
+
 
 
 .celda-insignia {
@@ -660,6 +658,7 @@ var(--color-text) -space: nowrap;
 .celda-insignia svg {
     stroke: currentColor;
 }
+
 
 
 /* ================================================
