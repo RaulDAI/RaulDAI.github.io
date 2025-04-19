@@ -171,7 +171,6 @@ select:focus {
 .icono {
     width: 18px;
     height: 18px;
-    vertical-align: middle;
     stroke-width: 1.8;
     flex-shrink: 0;
 }

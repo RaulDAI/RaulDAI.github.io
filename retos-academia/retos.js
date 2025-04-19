@@ -239,6 +239,10 @@ function cerrarModal(event) {
 function confirmarSumaTiempo() {
     if (indexActualParaSumar === null) return;
 
+    // 🛠️ Normaliza los inputs antes de leer
+    normalizarDosDigitos(document.getElementById("inputHoras"));
+    normalizarDosDigitos(document.getElementById("inputMinutos"));
+
     const h = parseInt(document.getElementById("inputHoras").value) || 0;
     const m = parseInt(document.getElementById("inputMinutos").value) || 0;
     const total = h * 60 + m;
@@ -250,6 +254,7 @@ function confirmarSumaTiempo() {
 
     cerrarModal({target: {id: "modal-tiempo"}});
 }
+
 
 function agregarReto() {
     const nuevo = {
@@ -437,4 +442,21 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     document.getElementById("menuToggle")?.addEventListener("click", toggleNav);
+
+    // Corrección visual al salir del input (modal)
+    ["inputHoras", "inputMinutos"].forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener("blur", () => {
+            let val = parseInt(input.value);
+            if (isNaN(val)) val = 0;
+
+            const tipo = input.dataset.tipo;
+            if (tipo === "horas") val = Math.max(0, Math.min(99, val));
+            if (tipo === "minutos") val = Math.max(0, Math.min(59, val));
+
+            input.value = val.toString().padStart(2, "0");
+        });
+    });
 });
