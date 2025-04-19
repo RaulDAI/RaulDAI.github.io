@@ -307,13 +307,25 @@ function actualizarCampoPorId(id, campo, valor) {
     }
 
     if (campo === "nombre") {
-        reto.etapa = "";
+        const nombreAnterior = reto.nombre;
+        reto.nombre = valor;
+
+        // Solo borramos la etapa si el nuevo nombre es distinto y hay riesgo de duplicado
+        const yaExisteMismoNombreYEtapa = retos.some(r =>
+            r !== reto && r.nombre.trim() === valor.trim() && r.etapa === reto.etapa
+        );
+
+        if (yaExisteMismoNombreYEtapa) {
+            reto.etapa = "";
+        }
+
         const fila = document.querySelector(`tr[data-id="${id}"]`);
         const select = fila?.querySelector("select");
         if (select) {
             renderOpcionesEtapasPorId(select, id);
         }
     }
+
 
     if (campo === "fechaInicio" || campo === "fechaFin") {
         const f1 = reto.fechaInicio;
@@ -362,10 +374,67 @@ function renderOpcionesEtapasPorId(select, id) {
     renderOpcionesEtapas(select, index);
 }
 
+function descargarRetos() {
+    const data = JSON.stringify(retos, null, 2);
+    const blob = new Blob([data], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "retos-academia.des";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+
+function importarRetos(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (!Array.isArray(data)) throw new Error("Formato inválido");
+
+            // Limpiar y reemplazar los retos existentes
+            retos.length = 0;
+            data.forEach(d => {
+                retos.push({
+                    id: d.id || crypto.randomUUID(),
+                    nombre: d.nombre || "",
+                    etapa: d.etapa || "",
+                    tiempoEstimado: d.tiempoEstimado || 0,
+                    tiempoReal: d.tiempoReal || 0,
+                    fechaInicio: d.fechaInicio || "",
+                    fechaFin: d.fechaFin || "",
+                    puntos: d.puntos || 0,
+                    insignia: d.insignia || ""
+                });
+            });
+
+            renderRetos();
+        } catch (err) {
+            alert("Archivo inválido. Asegúrate de cargar un .des válido.");
+        }
+    };
+    reader.readAsText(file);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
-    mostrarSeccion('retos');
-    document.querySelector('[data-seccion="retos"]')?.classList.add('activo');
+
+    mostrarSeccion("retos");
+    document.querySelector('[data-seccion="retos"]')?.classList.add("activo");
+
     agregarReto();
+
+    document.querySelector(".btn-mas")?.addEventListener("click", agregarReto);
+
+    document.querySelectorAll(".nav-btn").forEach(btn =>
+        btn.addEventListener("click", () => mostrarSeccion(btn.dataset.seccion))
+    );
+
+    document.getElementById("menuToggle")?.addEventListener("click", toggleNav);
 });

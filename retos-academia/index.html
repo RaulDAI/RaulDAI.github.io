@@ -4,52 +4,52 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Retos Academia</title>
-
-    <!-- Estilos propios -->
     <link rel="stylesheet" href="retos.css" />
-
-    <!-- Lucide Icons -->
-    <!-- Cargamos Lucide @0.487.0 desde unpkg sin 'integrity' por posibles cambios binarios que rompen SRI.
-         Si se aplica CSP o se autohospeda, revisar esta decisión. -->
     <script src="https://unpkg.com/lucide@0.487.0"></script>
-
 </head>
 <body>
 
 <!-- Botón para abrir el menú -->
-<button class="openbtn" id="menuToggle" onclick="toggleNav()" aria-label="Abrir menú lateral" aria-expanded="false" aria-controls="mySidenav">
+<button class="openbtn" id="menuToggle" aria-label="Abrir menú lateral" aria-expanded="false" aria-controls="mySidenav">
     ☰
 </button>
 
 <!-- Menú lateral -->
 <nav id="mySidenav" class="sidenav" aria-label="Menú principal" role="navigation">
-    <button type="button" onclick="mostrarSeccion('retos')" data-seccion="retos" class="nav-btn activo">
+    <button type="button" data-seccion="retos" class="nav-btn activo">
         <i data-lucide="list-check" class="icono"></i> Retos
     </button>
-    <button type="button" onclick="mostrarSeccion('graficos')" data-seccion="graficos" class="nav-btn">
+    <button type="button" data-seccion="graficos" class="nav-btn">
         <i data-lucide="bar-chart-3" class="icono"></i> Gráficos
     </button>
 </nav>
 
 <!-- Contenido principal -->
 <main id="main" tabindex="-1">
-
     <!-- Sección Retos -->
     <section class="seccion" id="seccion-retos">
         <div class="centrado-columna">
             <div class="ancho-contenido">
 
-                <!-- Retos Header alineado a la izquierda -->
                 <div class="retos-header">
-                    <h1 class="titulo titulo-con-boton">
+                    <h1 class="titulo-con-boton">
                         Retos JuanK [Aprendiz - Nv 1]
-                        <button class="btn-mas" onclick="agregarReto()" aria-label="Agregar nuevo reto">
-                            <i data-lucide="plus"></i>
+                        <button class="btn-mas" aria-label="Agregar nuevo reto">
+                            <i data-lucide="plus" class="icono-mas"></i>
                         </button>
                     </h1>
+
+                    <div class="retos-export-import">
+                        <input type="file" id="inputImportar" accept=".des,.json" style="display: none;" onchange="importarRetos(event)">
+                        <button onclick="document.getElementById('inputImportar').click()" aria-label="Importar retos">
+                            <i data-lucide="square-arrow-down-left" class="icono"></i> Importar
+                        </button>
+                        <button onclick="descargarRetos()" aria-label="Descargar retos">
+                            <i data-lucide="file-down" class="icono"></i> Descargar
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Tabla -->
                 <div class="tabla-retos">
                     <table>
                         <thead>
@@ -61,24 +61,14 @@
                             <th><i data-lucide="alarm-clock"></i> t Real</th>
                             <th><i data-lucide="calendar-days"></i> Fecha Inicial</th>
                             <th><i data-lucide="calendar-check"></i> Fecha Final</th>
-                            <th><i data-lucide="star"></i> Puntos</th> <!-- no editable -->
+                            <th><i data-lucide="star"></i> Puntos</th>
                             <th><i data-lucide="medal"></i> Insignia</th>
                             <th><i data-lucide="trash-2"></i></th>
                         </tr>
                         </thead>
-                        <tbody id="tabla-cuerpo-retos">
-                        <!-- Se llena dinámicamente desde retos.js -->
-                        <!-- Ejemplo de fila:
-                        <tr>
-                            ...
-                            <td class="celda-puntos"><span class="valor-puntos">0</span></td>
-                            ...
-                        </tr>
-                        -->
-                        </tbody>
+                        <tbody id="tabla-cuerpo-retos"></tbody>
                     </table>
                 </div>
-
 
             </div>
         </div>
@@ -93,36 +83,23 @@
             </div>
         </div>
     </section>
-
 </main>
 
-<!-- Scripts principales -->
+<!-- Scripts -->
 <script src="retos.js" defer></script>
 
-<!-- Inicialización general -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        lucide.createIcons();
-        mostrarSeccion('retos');
-        document.querySelector('[data-seccion="retos"]')?.classList.add('activo');
-    });
-</script>
-
-<!-- Modal para sumar tiempo real -->
+<!-- Modal tiempo real -->
 <div id="modal-tiempo" class="modal-overlay hidden" onclick="cerrarModal(event)">
     <div class="modal-contenido" onclick="event.stopPropagation()">
         <h2 class="modal-titulo">Sumar a Tiempo Real</h2>
-
         <div class="tiempo-input">
-            <input type="text" id="inputHoras" data-tipo="horas" maxlength="2" inputmode="numeric"
-                   oninput="filtrarNumeros(this)" onblur="normalizarDosDigitos(this)" value="00" /> :
-            <input type="text" id="inputMinutos" data-tipo="minutos" maxlength="2" inputmode="numeric"
-                   oninput="filtrarNumeros(this)" onblur="normalizarDosDigitos(this)" value="00" />
+            <input type="text" id="inputHoras" data-tipo="horas" maxlength="2" inputmode="numeric" value="00" />
+            <span class="separador">:</span>
+            <input type="text" id="inputMinutos" data-tipo="minutos" maxlength="2" inputmode="numeric" value="00" />
         </div>
-
         <div class="modal-botones">
-            <button onclick="confirmarSumaTiempo()" class="btn-confirmar">Sumar</button>
-            <button onclick="cerrarModal()" class="btn-cancelar">Cancelar</button>
+            <button class="btn-confirmar" onclick="confirmarSumaTiempo()">Sumar</button>
+            <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
         </div>
     </div>
 </div>
